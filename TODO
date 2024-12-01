@@ -1,0 +1,6 @@
+- when pasting data in the input box, remove everything which is not text, and trim text to remove spaces
++ update output after a timer is elapsed (500 ms?)
++ automatically copy to clipboard when the timer is elapsed? -> should be a setting
++ bind a key to copy to clipboard -> should be a setting
++ are Prefix and Suffix useful? -> No, discarded
++ application icon (windows + binary)

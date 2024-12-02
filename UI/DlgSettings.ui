@@ -31,6 +31,9 @@
         </item>
         <item>
          <widget class="QSpinBox" name="SpinBoxWidth">
+          <property name="toolTip">
+           <string>Minimum width of the box, taking in account the indentation. Box is extended if commentaries are wider</string>
+          </property>
           <property name="minimum">
            <number>20</number>
           </property>

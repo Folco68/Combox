@@ -1,9 +1,11 @@
-- when pasting data in the input box, remove everything which is not text, and trim text to remove spaces
++ when pasting data in the input box, remove everything which is not text, and trim text to remove spaces
 + update output after a timer is elapsed (500 ms?)
 + automatically copy to clipboard when the timer is elapsed? -> should be a setting
 + bind a key to copy to clipboard -> should be a setting
 + are Prefix and Suffix useful? -> No, discarded
 + application icon (windows + binary)
 + give focus to input editor when the application get the focus
-- drag & drop in input box
++ drag & drop in input box
++ adjust the width of the comment box if a line is > Width
++ text is not copied to the clipboard after a paste in the input box
 - About Dlg

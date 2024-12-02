@@ -22,13 +22,37 @@
 InputText::InputText(QWidget* parent)
     : QPlainTextEdit(parent)
 {
+    setAcceptDrops(true);
 }
 
+// Support only text for paste function
 bool InputText::canInsertFromMimeData(const QMimeData* source) const
 {
-    return source->hasFormat("text/plain");
+    return source->hasText();
 }
 
+// Remove the decoration of pasted text
 void InputText::insertFromMimeData(const QMimeData* source)
 {
+    QString Text = source->text();
+    while (!Text.isEmpty() && !Text.front().isLetterOrNumber()) {
+        Text.removeFirst();
+    }
+    while (!Text.isEmpty() && !Text.back().isLetterOrNumber()) {
+        Text.removeLast();
+    }
+    clear();
+    setPlainText(Text);
+}
+
+void InputText::dragEnterEvent(QDragEnterEvent* event)
+{
+    if (event->mimeData()->hasText()) {
+        event->acceptProposedAction();
+    }
+}
+
+void InputText::dropEvent(QDropEvent* event)
+{
+    insertFromMimeData(event->mimeData());
 }

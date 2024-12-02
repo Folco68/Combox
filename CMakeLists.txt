@@ -45,6 +45,11 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         UI/MainWindow.cpp
         UI/MainWindow.hpp
         UI/MainWindow.ui
+        UI/DlgAbout.hpp UI/DlgAbout.cpp UI/DlgAbout.ui
+        Docs/Docs.qrc
+        Docs/ABOUT
+        BeforeRelease.hpp
+        Docs/HOWTO
     )
 
 # Define target properties for Android with Qt 6 as:

@@ -94,12 +94,19 @@ void MainWindow::updateOutput()
     QString Output;
 
     // Comment lines stuff
-    QString     CommentSpace;
-    QStringList Comments(ui->TextEditInput->toPlainText().split('\n'));
+    QString     CommentSpace;                                               // Temp string containing the spaces on each side of the comments
+    QStringList CommentLines(ui->TextEditInput->toPlainText().split('\n')); // List of the lines in the input box
 
     // Indentation
-    int     IndentSize = ui->SpinBoxIndent->value() * ui->SpinBoxTabSize->value();
-    QString IndentStr(IndentSize, ' ');
+    int     IndentSize = ui->SpinBoxIndent->value() * ui->SpinBoxTabSize->value(); // Number of spaces of the indentation space
+    QString IndentStr(IndentSize, ' ');                                            // Intendation string, full of spaces
+
+    // Compute real width, adapted to the longest comment line
+    int RealWidth = Width;
+    for (int i = 0; i < CommentLines.size(); i++) {
+        int LineWidth = IndentSize + MiddleLeft.size() + CommentLines.at(i).size() + MiddleRight.size();
+        RealWidth     = LineWidth > RealWidth ? LineWidth : RealWidth;
+    }
 
     // Compute intermediate lines (between the top line and the comment, then between the comment and the bottom line)
     QString IntermediateLine; // A line between the top one and the comment section
@@ -107,18 +114,18 @@ void MainWindow::updateOutput()
     int     TmpWidth;         // Used to build the lines
 
     if (EmptyLines != 0) {
-        IntermediateLine.append(IndentStr).append(MiddleLeft);                  // Put the left part
-        TmpWidth = Width - IndentSize - MiddleLeft.size() - MiddleRight.size(); // Size of the center
-        Center.fill(' ', TmpWidth);                                             // Set the string contaning the middle
-        IntermediateLine.append(Center).append(MiddleRight).append('\n');       // Finalize the line
+        IntermediateLine.append(IndentStr).append(MiddleLeft);                      // Put the left part
+        TmpWidth = RealWidth - IndentSize - MiddleLeft.size() - MiddleRight.size(); // Size of the center
+        Center.fill(' ', TmpWidth);                                                 // Set the string contaning the middle
+        IntermediateLine.append(Center).append(MiddleRight).append('\n');           // Finalize the line
     }
 
     // Upper line
-    Output.append(IndentStr).append(TopLeft);                         // Put top left corner
-    TmpWidth = Width - IndentSize - TopLeft.size() - TopRight.size(); // Size of the center
-    while (TmpWidth > TopCenter.size()) {                             // While the available center size is greater that the pattern of the center
-        TmpWidth -= TopCenter.size();                                 // Update center size
-        Output.append(TopCenter);                                     // And push back the center pattern
+    Output.append(IndentStr).append(TopLeft);                             // Put top left corner
+    TmpWidth = RealWidth - IndentSize - TopLeft.size() - TopRight.size(); // Size of the center
+    while (TmpWidth > TopCenter.size()) {                                 // While the available center size is greater that the pattern of the center
+        TmpWidth -= TopCenter.size();                                     // Update center size
+        Output.append(TopCenter);                                         // And push back the center pattern
     }
     Output.append(TopCenter.first(TmpWidth)); // Complete the center if the pattern does not fit exactly the available space
     Output.append(TopRight).append('\n');     // Finally, put the top right corner and go to the next line
@@ -129,11 +136,11 @@ void MainWindow::updateOutput()
     }
 
     // Comments
-    for (int i = 0; i < Comments.count(); i++) {
+    for (int i = 0; i < CommentLines.count(); i++) {
         Output.append(IndentStr).append(MiddleLeft);
-        TmpWidth = Width - IndentSize - MiddleLeft.size() - Comments.at(i).size() - MiddleRight.size();
+        TmpWidth = RealWidth - IndentSize - MiddleLeft.size() - CommentLines.at(i).size() - MiddleRight.size();
         CommentSpace.fill(' ', TmpWidth / 2);
-        Output.append(CommentSpace).append(Comments.at(i)).append(CommentSpace);
+        Output.append(CommentSpace).append(CommentLines.at(i)).append(CommentSpace);
         if (TmpWidth % 2) {
             Output.append(' ');
         }
@@ -146,11 +153,11 @@ void MainWindow::updateOutput()
     }
 
     // Lower line
-    Output.append(IndentStr).append(BottomLeft);                            // Put the bottom left corner
-    TmpWidth = Width - IndentSize - BottomLeft.size() - BottomRight.size(); // Size of the center
-    while (TmpWidth > BottomCenter.size()) {                                // While the available center size is greater that the pattern of the center
-        TmpWidth -= BottomCenter.size();                                    // Update center size
-        Output.append(BottomCenter);                                        // And push back the center pattern
+    Output.append(IndentStr).append(BottomLeft);                                // Put the bottom left corner
+    TmpWidth = RealWidth - IndentSize - BottomLeft.size() - BottomRight.size(); // Size of the center
+    while (TmpWidth > BottomCenter.size()) {                                    // While the available center size is greater that the pattern of the center
+        TmpWidth -= BottomCenter.size();                                        // Update center size
+        Output.append(BottomCenter);                                            // And push back the center pattern
     }
     Output.append(BottomCenter.first(TmpWidth)); // Complete the center if the pattern does not fit exactly the available space
     Output.append(BottomRight).append('\n');     // Finally, put the top right corner and go to the next line
@@ -164,6 +171,7 @@ void MainWindow::updateOutput()
     }
 }
 
+// Select the text in the input box and give it the focus on windows activation
 bool MainWindow::event(QEvent* event)
 {
     if (event->type() == QEvent::WindowActivate) {

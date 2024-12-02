@@ -1,0 +1,27 @@
+            /*******************************************************************
+             *                                                                 *
+             *                             COMBOX                              *
+             *                                                                 *
+             ******************************************************************/
+
+
+About
+-----
+
+Author:                           Martial Demolins
+Mail:                             PLACEHOLDER_EMAIL_PERSONAL, PLACEHOLDER_EMAIL_PROFESSIONAL
+Position:                         PLACEHOLDER_POSITION_STR
+
+License:                          GPL v3. You can find it at https://www.gnu.org/licenses/gpl-3.0.en.html
+Copyright:                        PLACEHOLDER_COPYRIGHT_STR
+Version:                          PLACEHOLDER_APPLICATION_VERSION_STR
+Language:                         C++
+Framework:                        Qt PLACEHOLDER_QT_VERSION_STR
+Source and binary repository:     https://github.com/Folco68/Combox
+Changelog:                        https://github.com/Folco68/Combox/commits?author=Folco68
+
+
+Purpose
+-------
+
+This program is a comment formatter for source files in many languages.

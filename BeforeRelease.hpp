@@ -16,24 +16,16 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#ifndef INPUTTEXT_HPP
-#define INPUTTEXT_HPP
+#ifndef BEFORERELEASE_HPP
+#define BEFORERELEASE_HPP
 
-#include <QDragEnterEvent>
-#include <QDropEvent>
-#include <QPlainTextEdit>
-#include <QWidget>
+//
+// Some strings that need an update before a commit or a release
+//
+#define APPLICATION_VERSION_STR "1.0.0"
+#define POSITION_STR            "Service Engineer (S2), Market France/BeNeLux, Tetra Pak"
+#define COPYRIGHT_STR           "(c)2024-2025 Martial Demolins"
+#define EMAIL_PROFESSIONAL      "martial.demolins@tetrapak.com"
+#define EMAIL_PERSONAL          "martial.demolins@gmail.com"
 
-class InputText: public QPlainTextEdit
-{
-    Q_OBJECT
-
-  public:
-    InputText(QWidget* parent);
-    bool canInsertFromMimeData(const QMimeData* source) const override;
-    void insertFromMimeData(const QMimeData* source) override;
-    void dragEnterEvent(QDragEnterEvent* event) override;
-    void dropEvent(QDropEvent* event) override;
-};
-
-#endif // INPUTTEXT_HPP
+#endif // BEFORERELEASE_HPP

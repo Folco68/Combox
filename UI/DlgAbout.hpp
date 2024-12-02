@@ -16,24 +16,27 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#ifndef INPUTTEXT_HPP
-#define INPUTTEXT_HPP
+#ifndef DLGABOUT_HPP
+#define DLGABOUT_HPP
 
-#include <QDragEnterEvent>
-#include <QDropEvent>
-#include <QPlainTextEdit>
-#include <QWidget>
+#include <QDialog>
 
-class InputText: public QPlainTextEdit
+namespace Ui {
+    class DlgAbout;
+}
+
+class DlgAbout: public QDialog
 {
     Q_OBJECT
 
   public:
-    InputText(QWidget* parent);
-    bool canInsertFromMimeData(const QMimeData* source) const override;
-    void insertFromMimeData(const QMimeData* source) override;
-    void dragEnterEvent(QDragEnterEvent* event) override;
-    void dropEvent(QDropEvent* event) override;
+    static void execDlgAbout(QWidget* parent);
+
+  private:
+    Ui::DlgAbout* ui;
+
+    DlgAbout(QWidget* parent = nullptr);
+    ~DlgAbout();
 };
 
-#endif // INPUTTEXT_HPP
+#endif // DLGABOUT_HPP

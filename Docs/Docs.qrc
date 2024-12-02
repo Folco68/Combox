@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/Main">
+        <file>LICENSE</file>
+        <file>TODO</file>
+        <file>ABOUT</file>
+    </qresource>
+</RCC>

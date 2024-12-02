@@ -20,6 +20,7 @@
 #include "../Global.hpp"
 #include "../Settings.hpp"
 #include "./ui_MainWindow.h"
+#include "DlgAbout.hpp"
 #include "DlgSettings.hpp"
 #include <QClipboard>
 #include <QGuiApplication>
@@ -52,6 +53,7 @@ MainWindow::MainWindow(QWidget* parent)
     // Connections
     connect(ui->ButtonCopy, &QPushButton::clicked, this, [this]() { QGuiApplication::clipboard()->setText(ui->TextEditOutput->toPlainText()); });
     connect(ui->ButtonSettings, &QPushButton::clicked, this, [this]() { execDlgSettings(); });
+    connect(ui->ButtonAbout, &QPushButton::clicked, this, [this]() { DlgAbout::execDlgAbout(this); });
     connect(ui->SpinBoxIndent, &QSpinBox::valueChanged, this, [this]() { this->GenerationTimer->start(GENERATION_DELAY); });
     connect(ui->SpinBoxTabSize, &QSpinBox::valueChanged, this, [this]() { this->GenerationTimer->start(GENERATION_DELAY); });
     connect(ui->TextEditInput, &QPlainTextEdit::textChanged, this, [this]() { this->GenerationTimer->start(GENERATION_DELAY); });

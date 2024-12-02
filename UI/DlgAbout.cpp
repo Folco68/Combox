@@ -45,7 +45,7 @@ DlgAbout::DlgAbout(QWidget* parent)
         About.replace("PLACEHOLDER_EMAIL_PERSONAL", EMAIL_PERSONAL);
         About.replace("PLACEHOLDER_EMAIL_PROFESSIONAL", EMAIL_PROFESSIONAL);
 
-        ui->TextEditLicense->setPlainText(About);
+        ui->TextEditAbout->setPlainText(About);
     }
 
     // HowTo
@@ -53,7 +53,7 @@ DlgAbout::DlgAbout(QWidget* parent)
     if (FileHowTo.open(QIODeviceBase::ReadOnly)) {
         QTextStream StreamReadme(&FileHowTo);
         QString     HowTo = StreamReadme.readAll();
-        ui->TextEditLicense->setPlainText(HowTo);
+        ui->TextEditHowTo->setPlainText(HowTo);
     }
 
     // License

@@ -1,0 +1,41 @@
+    /*******************************************************
+     *                                                     *
+     *                     Basic usage                     *
+     *                                                     *
+     ******************************************************/
+
+To generate a box with you comments, you have to put your comment in the input box:
+- type inside the box, or
+- drag and drop text, or
+- paste text inside
+
+Three ways to copy the output to the system clipboard:
+- click the "Copy" button
+- hit the key/combo keys set in the Settings dialog (see below)
+- wait some tenths of seconds after you last keystroke, the output box is updated and the formatted comment copied
+in the system clipboard if the option is selected in the Settings dialog (see below)
+
+
+    /*******************************************************
+     *                                                     *
+     *                      Features                       *
+     *                                                     *
+     ******************************************************/
+
+When some text is pasted or dropped inside the input box, it is trimmed to remove non-alphanumerical chars at the beginning and at the end.
+It allows to paste or drop a comment box roughly selected to modify its content, without selecting it line per line.
+
+When alt-tabbing to the main window, the input box gets automatically the focus and its content is selected.
+It allows to type just after alt-tabbing.
+
+
+    /*******************************************************
+     *                                                     *
+     *                   Settings dialog                   *
+     *                                                     *
+     ******************************************************/
+
+- You can set a key or a combination of keys to copy the output box to the system clipboard
+
+- You can automatically copy the output to the system clipboard as soon as the output box is refreshed,
+which means after some tenths of seconds after your last keyboad hit

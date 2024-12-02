@@ -66,6 +66,26 @@
        <item>
         <layout class="QHBoxLayout" name="HLayoutOutput">
          <item>
+          <widget class="QPushButton" name="ButtonAbout">
+           <property name="text">
+            <string>About</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="HSpacer1">
+           <property name="orientation">
+            <enum>Qt::Orientation::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
           <widget class="QLabel" name="LabelIndent">
            <property name="text">
             <string>Indent:</string>
@@ -83,7 +103,7 @@
           </widget>
          </item>
          <item>
-          <spacer name="HSpacer1">
+          <spacer name="HSpacer2">
            <property name="orientation">
             <enum>Qt::Orientation::Horizontal</enum>
            </property>
@@ -119,13 +139,16 @@
           </widget>
          </item>
          <item>
-          <spacer name="HSpacer2">
+          <spacer name="HSpacer3">
            <property name="orientation">
             <enum>Qt::Orientation::Horizontal</enum>
            </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Policy::Fixed</enum>
+           </property>
            <property name="sizeHint" stdset="0">
             <size>
-             <width>40</width>
+             <width>10</width>
              <height>20</height>
             </size>
            </property>
@@ -137,19 +160,6 @@
             <string>Settings</string>
            </property>
           </widget>
-         </item>
-         <item>
-          <spacer name="HSpacer3">
-           <property name="orientation">
-            <enum>Qt::Orientation::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
          </item>
          <item>
           <widget class="QPushButton" name="ButtonCopy">

@@ -3,5 +3,6 @@
         <file>LICENSE</file>
         <file>TODO</file>
         <file>ABOUT</file>
+        <file>HOWTO</file>
     </qresource>
 </RCC>

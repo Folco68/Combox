@@ -16,15 +16,20 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#include "UI/MainWindow.hpp"
-#include <QApplication>
-#include <QIcon>
+#ifndef INPUTTEXT_HPP
+#define INPUTTEXT_HPP
 
-int main(int argc, char* argv[])
+#include <QPlainTextEdit>
+#include <QWidget>
+
+class InputText: public QPlainTextEdit
 {
-    QApplication Application(argc, argv);
-    Application.setWindowIcon(QIcon(":/Main/IconBase.png"));
-    MainWindow Window;
-    Window.show();
-    return Application.exec();
-}
+    Q_OBJECT
+
+  public:
+    InputText(QWidget* parent);
+    bool canInsertFromMimeData(const QMimeData* source) const override;
+    void insertFromMimeData(const QMimeData* source) override;
+};
+
+#endif // INPUTTEXT_HPP

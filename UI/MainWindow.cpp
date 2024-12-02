@@ -17,10 +17,10 @@
 */
 
 #include "MainWindow.hpp"
+#include "../Global.hpp"
+#include "../Settings.hpp"
 #include "./ui_MainWindow.h"
 #include "DlgSettings.hpp"
-#include "Global.hpp"
-#include "Settings.hpp"
 #include <QClipboard>
 #include <QGuiApplication>
 #include <QList>
@@ -90,7 +90,7 @@ void MainWindow::updateSettings()
 
 void MainWindow::updateOutput()
 {
-    // Output. Will be echoed in the output box
+    // Output string. Will be echoed in the output box
     QString Output;
 
     // Comment lines stuff
@@ -102,15 +102,15 @@ void MainWindow::updateOutput()
     QString IndentStr(IndentSize, ' ');
 
     // Compute intermediate lines (between the top line and the comment, then between the comment and the bottom line)
-    QString Line;     // A line between the top one and the comment section
-    QString Center;   // Tmp string to quickly generate the list of spaces in the center
-    int     TmpWidth; // Used to build the lines
+    QString IntermediateLine; // A line between the top one and the comment section
+    QString Center;           // Tmp string to quickly generate the list of spaces in the center
+    int     TmpWidth;         // Used to build the lines
 
     if (EmptyLines != 0) {
-        Line.append(IndentStr).append(MiddleLeft);                              // Put the left part
+        IntermediateLine.append(IndentStr).append(MiddleLeft);                  // Put the left part
         TmpWidth = Width - IndentSize - MiddleLeft.size() - MiddleRight.size(); // Size of the center
         Center.fill(' ', TmpWidth);                                             // Set the string contaning the middle
-        Line.append(Center).append(MiddleRight);                                // Finalize the line
+        IntermediateLine.append(Center).append(MiddleRight).append('\n');       // Finalize the line
     }
 
     // Upper line
@@ -125,7 +125,7 @@ void MainWindow::updateOutput()
 
     // Intermediate lines
     for (int i = 0; i < EmptyLines; i++) {
-        Output.append(Line).append('\n');
+        Output.append(IntermediateLine);
     }
 
     // Comments
@@ -142,7 +142,7 @@ void MainWindow::updateOutput()
 
     // Intermediate lines
     for (int i = 0; i < EmptyLines; i++) {
-        Output.append(Line).append('\n');
+        Output.append(IntermediateLine);
     }
 
     // Lower line
@@ -162,4 +162,13 @@ void MainWindow::updateOutput()
     if (this->AutoCopy) {
         QGuiApplication::clipboard()->setText(Output);
     }
+}
+
+bool MainWindow::event(QEvent* event)
+{
+    if (event->type() == QEvent::WindowActivate) {
+        ui->TextEditInput->setFocus();
+        ui->TextEditInput->selectAll();
+    }
+    return QMainWindow::event(event);
 }

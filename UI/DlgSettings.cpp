@@ -17,7 +17,7 @@
 */
 
 #include "DlgSettings.hpp"
-#include "Settings.hpp"
+#include "../Settings.hpp"
 #include "ui_DlgSettings.h"
 
 DlgSettings::DlgSettings(QWidget* parent)

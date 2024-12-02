@@ -22,7 +22,7 @@
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <widget class="QPlainTextEdit" name="TextEditInput">
+        <widget class="InputText" name="TextEditInput">
          <property name="minimumSize">
           <size>
            <width>1000</width>
@@ -166,6 +166,13 @@
    </layout>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>InputText</class>
+   <extends>QPlainTextEdit</extends>
+   <header>InputText.hpp</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

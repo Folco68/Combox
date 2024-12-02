@@ -4,3 +4,6 @@
 + bind a key to copy to clipboard -> should be a setting
 + are Prefix and Suffix useful? -> No, discarded
 + application icon (windows + binary)
++ give focus to input editor when the application get the focus
+- drag & drop in input box
+- About Dlg

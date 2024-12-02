@@ -19,6 +19,7 @@
 #ifndef MAINWINDOW_HPP
 #define MAINWINDOW_HPP
 
+#include <QEvent>
 #include <QMainWindow>
 #include <QShortcut>
 #include <QString>
@@ -61,6 +62,7 @@ class MainWindow: public QMainWindow
     void execDlgSettings();
     void updateSettings();
     void updateOutput();
+    bool event(QEvent* event) override;
 };
 
 #endif // MAINWINDOW_HPP

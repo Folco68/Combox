@@ -14,22 +14,39 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 set(PROJECT_SOURCES
         main.cpp
-        MainWindow.cpp
-        MainWindow.hpp
-        MainWindow.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(Combox
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        DlgSettings.hpp DlgSettings.cpp DlgSettings.ui
-        Settings.hpp Settings.cpp
+
+        # Main
         Global.hpp
-        TODO
-        Icon.rc
-        Icon.qrc
+        Settings.hpp
+        Settings.cpp
+
+        # Docs
+        Docs/LICENSE
+        Docs/TODO
+
+        # Resources
+        Resources/Icon.qrc
+        Resources/Icon.rc
+        Resources/IconBase.ico
+        Resources/IconBase.png
+
+        # UI
+        UI/DlgSettings.cpp
+        UI/DlgSettings.hpp
+        UI/DlgSettings.ui
+        UI/InputText.cpp
+        UI/InputText.hpp
+        UI/MainWindow.cpp
+        UI/MainWindow.hpp
+        UI/MainWindow.ui
     )
+
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET Combox APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
 #                 ${CMAKE_CURRENT_SOURCE_DIR}/android)

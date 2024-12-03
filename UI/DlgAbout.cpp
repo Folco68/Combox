@@ -32,11 +32,22 @@ DlgAbout::DlgAbout(QWidget* parent)
     ui->Tabs->setCurrentIndex(0);
     connect(ui->ButtonClose, &QPushButton::clicked, this, [this]() { close(); });
 
-    // About
+    /***************************************************************************
+     *                                                                         *
+     *                                About tab                                *
+     *                                                                         *
+     **************************************************************************/
+
     QFile FileAbout(":/Main/ABOUT");
     if (FileAbout.open(QIODeviceBase::ReadOnly)) {
         QTextStream StreamReadme(&FileAbout);
         QString     About = StreamReadme.readAll();
+
+        /***********************************************************************
+         *                                                                     *
+         *         Replace some strings provided by BeforeRelease.hpp          *
+         *                                                                     *
+         **********************************************************************/
 
         About.replace("PLACEHOLDER_POSITION_STR", POSITION_STR);
         About.replace("PLACEHOLDER_COPYRIGHT_STR", COPYRIGHT_STR);
@@ -48,7 +59,12 @@ DlgAbout::DlgAbout(QWidget* parent)
         ui->TextEditAbout->setPlainText(About);
     }
 
-    // HowTo
+    /***************************************************************************
+     *                                                                         *
+     *                                HowTo tab                                *
+     *                                                                         *
+     **************************************************************************/
+
     QFile FileHowTo(":/Main/HOWTO");
     if (FileHowTo.open(QIODeviceBase::ReadOnly)) {
         QTextStream StreamReadme(&FileHowTo);
@@ -56,7 +72,12 @@ DlgAbout::DlgAbout(QWidget* parent)
         ui->TextEditHowTo->setPlainText(HowTo);
     }
 
-    // License
+    /***************************************************************************
+     *                                                                         *
+     *                               License tab                               *
+     *                                                                         *
+     **************************************************************************/
+
     QFile FileLicense(":/Main/LICENSE");
     if (FileLicense.open(QIODeviceBase::ReadOnly)) {
         QTextStream StreamReadme(&FileLicense);
@@ -70,6 +91,10 @@ DlgAbout::~DlgAbout()
     delete ui;
 }
 
+//  execDlgAbout
+//
+// Static method allowing an easy display of the dialog for the caller
+//
 void DlgAbout::execDlgAbout(QWidget* parent)
 {
     DlgAbout* Dlg = new DlgAbout(parent);

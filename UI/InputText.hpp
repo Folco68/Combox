@@ -24,16 +24,21 @@
 #include <QPlainTextEdit>
 #include <QWidget>
 
+//  InputText
+//
+// This class is intended to handle pasting and drag & drop operations
+// It is needed because we perform some trimming operations on the string copied in the input box
+//
 class InputText: public QPlainTextEdit
 {
     Q_OBJECT
 
   public:
     InputText(QWidget* parent);
-    bool canInsertFromMimeData(const QMimeData* source) const override;
-    void insertFromMimeData(const QMimeData* source) override;
-    void dragEnterEvent(QDragEnterEvent* event) override;
-    void dropEvent(QDropEvent* event) override;
+    bool canInsertFromMimeData(const QMimeData* source) const override; // Used when pasting
+    void insertFromMimeData(const QMimeData* source) override;          // Used when pasting and dropping
+    void dragEnterEvent(QDragEnterEvent* event) override;               // Used when dragging
+    void dropEvent(QDropEvent* event) override;                         // Used when dropping
 };
 
 #endif // INPUTTEXT_HPP

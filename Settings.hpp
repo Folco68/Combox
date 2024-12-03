@@ -23,6 +23,12 @@
 #include <QSettings>
 #include <QString>
 
+//  Settings
+//
+// This class stores the users settings in the Windows registry.
+// Every key has a getter and a setter.
+// The getters provide a default value if nothing was defined yet.
+//
 class Settings: public QSettings
 {
   public:
@@ -30,6 +36,7 @@ class Settings: public QSettings
     static Settings* instance();
     static void      release();
 
+    // Settings
     QString topLeft() const;
     void    setTopLeft(QString pattern);
 

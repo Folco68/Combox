@@ -25,6 +25,10 @@ namespace Ui {
     class DlgAbout;
 }
 
+//  DlgAbout
+//
+// Simple dialog showing About, HowTo and License texts
+//
 class DlgAbout: public QDialog
 {
     Q_OBJECT
@@ -34,7 +38,6 @@ class DlgAbout: public QDialog
 
   private:
     Ui::DlgAbout* ui;
-
     DlgAbout(QWidget* parent = nullptr);
     ~DlgAbout();
 };

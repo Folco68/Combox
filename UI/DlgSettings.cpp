@@ -20,11 +20,22 @@
 #include "../Settings.hpp"
 #include "ui_DlgSettings.h"
 
+//  DlgSettings
+//
+// Constructor
+//
 DlgSettings::DlgSettings(QWidget* parent)
     : QDialog(parent)
     , ui(new Ui::DlgSettings)
 {
     ui->setupUi(this);
+
+    /***************************************************************************
+     *                                                                         *
+     *                  Prepare the UI with current settings                   *
+     *                                                                         *
+     **************************************************************************/
+
     ui->EditTopLeft->setText(Settings::instance()->topLeft());
     ui->EditTopCenter->setText(Settings::instance()->topCenter());
     ui->EditTopRight->setText(Settings::instance()->topRight());
@@ -38,6 +49,12 @@ DlgSettings::DlgSettings(QWidget* parent)
     ui->CheckAutoCopy->setChecked(Settings::instance()->autoCopyToClipboard());
     ui->KeySequenceCopy->setKeySequence(Settings::instance()->copyShortcut());
 
+    /***************************************************************************
+     *                                                                         *
+     *                           Buttons connections                           *
+     *                                                                         *
+     **************************************************************************/
+
     connect(ui->ButtonOK, &QPushButton::clicked, this, [this]() { accept(); });
     connect(ui->ButtonCancel, &QPushButton::clicked, this, [this]() { reject(); });
 }
@@ -47,10 +64,27 @@ DlgSettings::~DlgSettings()
     delete ui;
 }
 
+//  execDlgSettings
+//
+// Static method displaying the dialog and updating the config in the registry in case of validation
+//
 bool DlgSettings::execDlgSettings(QWidget* parent)
 {
+    /***************************************************************************
+     *                                                                         *
+     *                             Show the dialog                             *
+     *                                                                         *
+     **************************************************************************/
+
     DlgSettings* Dlg    = new DlgSettings(parent);
     int          RetVal = Dlg->exec();
+
+    /***************************************************************************
+     *                                                                         *
+     *              Save the settings if the dialog was validated              *
+     *                                                                         *
+     **************************************************************************/
+
     if (RetVal == QDialog::Accepted) {
         Settings::instance()->setTopLeft(Dlg->ui->EditTopLeft->text());
         Settings::instance()->setTopCenter(Dlg->ui->EditTopCenter->text());
@@ -65,6 +99,13 @@ bool DlgSettings::execDlgSettings(QWidget* parent)
         Settings::instance()->setautoCopyToClipboard(Dlg->ui->CheckAutoCopy->isChecked());
         Settings::instance()->setCopyShortcut(Dlg->ui->KeySequenceCopy->keySequence().toString());
     }
+
+    /***************************************************************************
+     *                                                                         *
+     *                     Clean and return dialog result                      *
+     *                                                                         *
+     **************************************************************************/
+
     delete Dlg;
     return RetVal == QDialog::Accepted;
 }

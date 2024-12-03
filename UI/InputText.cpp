@@ -25,13 +25,20 @@ InputText::InputText(QWidget* parent)
     setAcceptDrops(true);
 }
 
-// Support only text for paste function
+//  canInsertFromMimeData
+//
+// Paste supports only text
+//
 bool InputText::canInsertFromMimeData(const QMimeData* source) const
 {
     return source->hasText();
 }
 
-// Remove the decoration of pasted text
+//  insertFromMimeData
+//
+// Remove the decoration of pasted text.
+// All non-alphanumerical characters are removed at the beginning and at the end of the pasted text.
+//
 void InputText::insertFromMimeData(const QMimeData* source)
 {
     QString Text = source->text();
@@ -45,6 +52,10 @@ void InputText::insertFromMimeData(const QMimeData* source)
     setPlainText(Text);
 }
 
+//  dragEnterEvent
+//
+// Allow potential drop only if the content is a text
+//
 void InputText::dragEnterEvent(QDragEnterEvent* event)
 {
     if (event->mimeData()->hasText()) {
@@ -52,6 +63,10 @@ void InputText::dragEnterEvent(QDragEnterEvent* event)
     }
 }
 
+//  dropEvent
+//
+// On a drop, apply the procedure of pasting
+//
 void InputText::dropEvent(QDropEvent* event)
 {
     insertFromMimeData(event->mimeData());

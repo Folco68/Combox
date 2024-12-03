@@ -17,7 +17,9 @@
 */
 
 #include "InputText.hpp"
+#include <QList>
 #include <QMimeData>
+#include <QString>
 
 InputText::InputText(QWidget* parent)
     : QPlainTextEdit(parent)
@@ -41,15 +43,40 @@ bool InputText::canInsertFromMimeData(const QMimeData* source) const
 //
 void InputText::insertFromMimeData(const QMimeData* source)
 {
-    QString Text = source->text();
-    while (!Text.isEmpty() && !Text.front().isLetterOrNumber()) {
-        Text.removeFirst();
+    /***************************************************************************
+     *                                                                         *
+     *                        Split the input in lines                         *
+     *                                                                         *
+     **************************************************************************/
+
+    QString        Text = source->text();
+    QList<QString> Lines(Text.split('\n'));
+
+    /***************************************************************************
+     *                                                                         *
+     *                            Clean every line                             *
+     *                                                                         *
+     **************************************************************************/
+
+    for (int i = 0; i < Lines.count(); i++) {
+        while (!Lines.at(i).isEmpty() && !Lines.at(i).front().isLetterOrNumber()) {
+            Lines[i].removeFirst();
+        }
+        while (!Lines.at(i).isEmpty() && !Lines.at(i).back().isLetterOrNumber()) {
+            Lines[i].removeLast();
+        }
     }
-    while (!Text.isEmpty() && !Text.back().isLetterOrNumber()) {
-        Text.removeLast();
-    }
+
+    /***************************************************************************
+     *                                                                         *
+     *                  Insert the cleaned lines in the ouput                  *
+     *                                                                         *
+     **************************************************************************/
+
     clear();
-    setPlainText(Text);
+    for (int i = 0; i < Lines.count(); i++) {
+        appendPlainText(Lines.at(i)); // Empty lines does not change the input
+    }
 }
 
 //  dragEnterEvent

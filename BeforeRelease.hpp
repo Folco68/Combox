@@ -25,7 +25,7 @@
  *                                                                                                                     *
  **********************************************************************************************************************/
 
-#define APPLICATION_VERSION_STR "1.0.0"
+#define APPLICATION_VERSION_STR "1.1.0"
 #define POSITION_STR            "Service Engineer (S2), Market France/BeNeLux, Tetra Pak"
 #define COPYRIGHT_STR           "(c)2024-2025 Martial Demolins"
 #define EMAIL_PROFESSIONAL      "martial.demolins@tetrapak.com"

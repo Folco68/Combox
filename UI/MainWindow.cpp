@@ -29,53 +29,68 @@
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
-    , GenerationTimer(new QTimer(this))
-    , CopyShortcut(new QShortcut(this))
+    , GenerationTimer(this)
+    , CopyShortcut(this)
 {
     ui->setupUi(this);
     setWindowTitle(APPLICATION_NAME);
 
     // Generation timer
-    this->GenerationTimer->setSingleShot(true);           // Update output only once when fired
-    this->GenerationTimer->setTimerType(Qt::CoarseTimer); // 5% accuracy
+    this->GenerationTimer.setSingleShot(true);           // Update output only once when fired
+    this->GenerationTimer.setTimerType(Qt::CoarseTimer); // 5% accuracy
 
     // Copy shortcut
-    connect(this->CopyShortcut, &QShortcut::activated, this, [this]() { QGuiApplication::clipboard()->setText(ui->TextEditOutput->toPlainText()); });
+    connect(&this->CopyShortcut, &QShortcut::activated, this, [this]() { QGuiApplication::clipboard()->setText(ui->TextEditOutput->toPlainText()); });
 
     // Update box settings
     ui->SpinBoxIndent->setValue(Settings::instance()->indentCount());
     ui->SpinBoxTabSize->setValue(Settings::instance()->tabSize());
+    ui->SpinBoxEmptyLines->setValue(Settings::instance()->emptyLines());
+    ui->SpinBoxWidth->setValue(Settings::instance()->width());
 
     // Update local settings and output
-    updateSettings();
+    updateLocalCopyOfSettings();
     updateOutput();
 
-    // Connections
-    connect(ui->ButtonCopy, &QPushButton::clicked, this, [this]() { QGuiApplication::clipboard()->setText(ui->TextEditOutput->toPlainText()); });
-    connect(ui->ButtonSettings, &QPushButton::clicked, this, [this]() { execDlgSettings(); });
-    connect(ui->ButtonAbout, &QPushButton::clicked, this, [this]() { DlgAbout::execDlgAbout(this); });
-    connect(ui->SpinBoxIndent, &QSpinBox::valueChanged, this, [this]() { this->GenerationTimer->start(GENERATION_DELAY); });
-    connect(ui->SpinBoxTabSize, &QSpinBox::valueChanged, this, [this]() { this->GenerationTimer->start(GENERATION_DELAY); });
-    connect(ui->TextEditInput, &QPlainTextEdit::textChanged, this, [this]() { this->GenerationTimer->start(GENERATION_DELAY); });
-    connect(this->GenerationTimer, &QTimer::timeout, this, [this]() { updateOutput(); });
+    // Buttons connections
+    connect(ui->ButtonSettings, &QPushButton::clicked, this, &MainWindow::execDlgSettings);
+    connect(ui->ButtonCopy, &QPushButton::clicked, [this]() { QGuiApplication::clipboard()->setText(ui->TextEditOutput->toPlainText()); });
+    connect(ui->ButtonAbout, &QPushButton::clicked, [this]() { DlgAbout::execDlgAbout(this); });
+
+    // Other connections
+    connect(ui->SpinBoxIndent, &QSpinBox::valueChanged, [this]() { this->GenerationTimer.start(GENERATION_DELAY); });
+    connect(ui->SpinBoxTabSize, &QSpinBox::valueChanged, [this]() { this->GenerationTimer.start(GENERATION_DELAY); });
+    connect(ui->SpinBoxEmptyLines, &QSpinBox::valueChanged, [this]() { this->GenerationTimer.start(GENERATION_DELAY); });
+    connect(ui->SpinBoxWidth, &QSpinBox::valueChanged, [this]() { this->GenerationTimer.start(GENERATION_DELAY); });
+    connect(ui->TextEditInput, &QPlainTextEdit::textChanged, [this]() { this->GenerationTimer.start(GENERATION_DELAY); });
+    connect(&this->GenerationTimer, &QTimer::timeout, this, &MainWindow::updateOutput);
 }
 
 MainWindow::~MainWindow()
 {
+    // Save and close settings
+    // Settings managed by DlgSettings have already been pushed to the Settings object.
+    // The settings local to the MainWindow have to be saved separately
+    Settings::instance()->setEmptyLines(ui->SpinBoxEmptyLines->value());
+    Settings::instance()->setWidth(ui->SpinBoxWidth->value());
+    Settings::instance()->setIndentCount(ui->SpinBoxIndent->value());
+    Settings::instance()->setTabSize(ui->SpinBoxTabSize->value());
     Settings::release();
+
     delete ui;
 }
 
 void MainWindow::execDlgSettings()
 {
     if (DlgSettings::execDlgSettings(this)) {
-        updateSettings();
+        updateLocalCopyOfSettings();
         updateOutput();
     }
 }
 
-void MainWindow::updateSettings()
+void MainWindow::updateLocalCopyOfSettings()
 {
+    // These are shortcuts to avoid triggering the QSettings factory while crafting the output box
     this->TopLeft      = Settings::instance()->topLeft();
     this->TopCenter    = Settings::instance()->topCenter();
     this->TopRight     = Settings::instance()->topRight();
@@ -84,10 +99,9 @@ void MainWindow::updateSettings()
     this->BottomLeft   = Settings::instance()->bottomLeft();
     this->BottomCenter = Settings::instance()->bottomCenter();
     this->BottomRight  = Settings::instance()->bottomRight();
-    this->EmptyLines   = Settings::instance()->emptyLines();
-    this->Width        = Settings::instance()->width();
-    this->AutoCopy     = Settings::instance()->autoCopyToClipboard();
-    this->CopyShortcut->setKey(Settings::instance()->copyShortcut());
+
+    // Update the copy shortcut
+    this->CopyShortcut.setKey(Settings::instance()->copyShortcut());
 }
 
 void MainWindow::updateOutput()
@@ -104,7 +118,7 @@ void MainWindow::updateOutput()
     QString IndentStr(IndentSize, ' ');                                            // Intendation string, full of spaces
 
     // Compute real width, adapted to the longest comment line
-    int RealWidth = Width;
+    int RealWidth = ui->SpinBoxWidth->value();
     for (int i = 0; i < CommentLines.size(); i++) {
         int LineWidth = IndentSize + MiddleLeft.size() + CommentLines.at(i).size() + MiddleRight.size();
         RealWidth     = LineWidth > RealWidth ? LineWidth : RealWidth;
@@ -115,7 +129,7 @@ void MainWindow::updateOutput()
     QString Center;           // Tmp string to quickly generate the list of spaces in the center
     int     TmpWidth;         // Used to build the lines
 
-    if (EmptyLines != 0) {
+    if (ui->SpinBoxEmptyLines->value() != 0) {
         IntermediateLine.append(IndentStr).append(MiddleLeft);                      // Put the left part
         TmpWidth = RealWidth - IndentSize - MiddleLeft.size() - MiddleRight.size(); // Size of the center
         Center.fill(' ', TmpWidth);                                                 // Set the string contaning the middle
@@ -133,7 +147,7 @@ void MainWindow::updateOutput()
     Output.append(TopRight).append('\n');     // Finally, put the top right corner and go to the next line
 
     // Intermediate lines
-    for (int i = 0; i < EmptyLines; i++) {
+    for (int i = 0; i < ui->SpinBoxEmptyLines->value(); i++) {
         Output.append(IntermediateLine);
     }
 
@@ -150,7 +164,7 @@ void MainWindow::updateOutput()
     }
 
     // Intermediate lines
-    for (int i = 0; i < EmptyLines; i++) {
+    for (int i = 0; i < ui->SpinBoxEmptyLines->value(); i++) {
         Output.append(IntermediateLine);
     }
 
@@ -168,7 +182,7 @@ void MainWindow::updateOutput()
     ui->TextEditOutput->setPlainText(Output);
 
     // Copy to clipboard according to settings
-    if (this->AutoCopy) {
+    if (Settings::instance()->autoCopyToClipboard()) {
         QGuiApplication::clipboard()->setText(Output);
     }
 }

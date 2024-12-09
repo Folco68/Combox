@@ -42,25 +42,23 @@ class MainWindow: public QMainWindow
   private:
     Ui::MainWindow* ui;
 
-    //
-    QTimer*    GenerationTimer;
-    QShortcut* CopyShortcut;
+    // Output timer
+    QTimer GenerationTimer;
 
-    // Settings. Locally stored for performance
-    QString TopLeft;
-    QString TopCenter;
-    QString TopRight;
-    QString MiddleLeft;
-    QString MiddleRight;
-    QString BottomLeft;
-    QString BottomCenter;
-    QString BottomRight;
-    int     EmptyLines;
-    int     Width;
-    bool    AutoCopy;
+    // Settings. Locally stored for performance and display conveniency
+    QString   TopLeft;
+    QString   TopCenter;
+    QString   TopRight;
+    QString   MiddleLeft;
+    QString   MiddleRight;
+    QString   BottomLeft;
+    QString   BottomCenter;
+    QString   BottomRight;
+    bool      AutoCopy;
+    QShortcut CopyShortcut;
 
     void execDlgSettings();
-    void updateSettings();
+    void updateLocalCopyOfSettings();
     void updateOutput();
     bool event(QEvent* event) override;
 };

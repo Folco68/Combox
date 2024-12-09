@@ -44,8 +44,6 @@ DlgSettings::DlgSettings(QWidget* parent)
     ui->EditBottomLeft->setText(Settings::instance()->bottomLeft());
     ui->EditBottomCenter->setText(Settings::instance()->bottomCenter());
     ui->EditBottomRight->setText(Settings::instance()->bottomRight());
-    ui->SpinBoxEmptyLines->setValue(Settings::instance()->emptyLines());
-    ui->SpinBoxWidth->setValue(Settings::instance()->width());
     ui->CheckAutoCopy->setChecked(Settings::instance()->autoCopyToClipboard());
     ui->KeySequenceCopy->setKeySequence(Settings::instance()->copyShortcut());
 
@@ -94,8 +92,6 @@ bool DlgSettings::execDlgSettings(QWidget* parent)
         Settings::instance()->setBottomLeft(Dlg->ui->EditBottomLeft->text());
         Settings::instance()->setBottomCenter(Dlg->ui->EditBottomCenter->text());
         Settings::instance()->setBottomRight(Dlg->ui->EditBottomRight->text());
-        Settings::instance()->setEmptyLines(Dlg->ui->SpinBoxEmptyLines->value());
-        Settings::instance()->setWidth(Dlg->ui->SpinBoxWidth->value());
         Settings::instance()->setautoCopyToClipboard(Dlg->ui->CheckAutoCopy->isChecked());
         Settings::instance()->setCopyShortcut(Dlg->ui->KeySequenceCopy->keySequence().toString());
     }

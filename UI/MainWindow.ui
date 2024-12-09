@@ -64,7 +64,7 @@
         </widget>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="HLayoutOutput">
+        <layout class="QHBoxLayout" name="HLayoutSettings">
          <item>
           <widget class="QPushButton" name="ButtonAbout">
            <property name="text">
@@ -80,6 +80,84 @@
            <property name="sizeHint" stdset="0">
             <size>
              <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QLabel" name="LabelWidth">
+           <property name="text">
+            <string>Width:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="SpinBoxWidth">
+           <property name="toolTip">
+            <string>Minimum width of the box, taking in account the indentation. Box is extended if commentaries are wider</string>
+           </property>
+           <property name="minimum">
+            <number>20</number>
+           </property>
+           <property name="maximum">
+            <number>250</number>
+           </property>
+           <property name="singleStep">
+            <number>10</number>
+           </property>
+           <property name="stepType">
+            <enum>QAbstractSpinBox::StepType::DefaultStepType</enum>
+           </property>
+           <property name="value">
+            <number>120</number>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="HSpacer2">
+           <property name="orientation">
+            <enum>Qt::Orientation::Horizontal</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Policy::Fixed</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>15</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QLabel" name="LabelEmptyLines">
+           <property name="text">
+            <string>Empty lines:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="SpinBoxEmptyLines">
+           <property name="maximum">
+            <number>10</number>
+           </property>
+           <property name="value">
+            <number>1</number>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="HSpacer3">
+           <property name="orientation">
+            <enum>Qt::Orientation::Horizontal</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Policy::Fixed</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>15</width>
              <height>20</height>
             </size>
            </property>
@@ -103,7 +181,7 @@
           </widget>
          </item>
          <item>
-          <spacer name="HSpacer2">
+          <spacer name="HSpacer4">
            <property name="orientation">
             <enum>Qt::Orientation::Horizontal</enum>
            </property>
@@ -112,7 +190,7 @@
            </property>
            <property name="sizeHint" stdset="0">
             <size>
-             <width>10</width>
+             <width>15</width>
              <height>20</height>
             </size>
            </property>
@@ -139,7 +217,7 @@
           </widget>
          </item>
          <item>
-          <spacer name="HSpacer3">
+          <spacer name="HSpacer5">
            <property name="orientation">
             <enum>Qt::Orientation::Horizontal</enum>
            </property>
@@ -148,7 +226,7 @@
            </property>
            <property name="sizeHint" stdset="0">
             <size>
-             <width>10</width>
+             <width>15</width>
              <height>20</height>
             </size>
            </property>
@@ -157,9 +235,22 @@
          <item>
           <widget class="QPushButton" name="ButtonSettings">
            <property name="text">
-            <string>Settings</string>
+            <string>More settings</string>
            </property>
           </widget>
+         </item>
+         <item>
+          <spacer name="HSpacer6">
+           <property name="orientation">
+            <enum>Qt::Orientation::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>15</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
          </item>
          <item>
           <widget class="QPushButton" name="ButtonCopy">

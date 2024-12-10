@@ -23,6 +23,8 @@
 #include "DlgAbout.hpp"
 #include "DlgSettings.hpp"
 #include <QClipboard>
+#include <QFont>
+#include <QFontMetrics>
 #include <QGuiApplication>
 #include <QList>
 
@@ -31,6 +33,14 @@ MainWindow::MainWindow(QWidget* parent)
     , ui(new Ui::MainWindow)
     , GenerationTimer(this)
     , CopyShortcut(this)
+    , IncreaseEmptyLinesShortcut(this)
+    , DecreaseEmptyLinesShortcut(this)
+    , IncreaseTabSizeShortcut(this)
+    , DecreaseTabSizeShortcut(this)
+    , IncreaseIndentShortcut(this)
+    , DecreaseIndentShortcut(this)
+    , IncreaseWidthShortcut(this)
+    , DecreaseWidthShortcut(this)
 {
     ui->setupUi(this);
     setWindowTitle(APPLICATION_NAME);
@@ -40,16 +50,17 @@ MainWindow::MainWindow(QWidget* parent)
     this->GenerationTimer.setTimerType(Qt::CoarseTimer); // 5% accuracy
 
     // Copy shortcut
-    connect(&this->CopyShortcut, &QShortcut::activated, this, [this]() { QGuiApplication::clipboard()->setText(ui->TextEditOutput->toPlainText()); });
+    connect(&this->CopyShortcut, &QShortcut::activated, [this]() { QGuiApplication::clipboard()->setText(ui->TextEditOutput->toPlainText()); });
 
     // Update box settings
     ui->SpinBoxIndent->setValue(Settings::instance()->indentCount());
     ui->SpinBoxTabSize->setValue(Settings::instance()->tabSize());
     ui->SpinBoxEmptyLines->setValue(Settings::instance()->emptyLines());
     ui->SpinBoxWidth->setValue(Settings::instance()->width());
+    ui->SpinBoxWidth->setSingleStep(STEP_WIDTH);
 
     // Update local settings and output
-    updateLocalCopyOfSettings();
+    updateConfiguration();
     updateOutput();
 
     // Buttons connections
@@ -57,20 +68,30 @@ MainWindow::MainWindow(QWidget* parent)
     connect(ui->ButtonCopy, &QPushButton::clicked, [this]() { QGuiApplication::clipboard()->setText(ui->TextEditOutput->toPlainText()); });
     connect(ui->ButtonAbout, &QPushButton::clicked, [this]() { DlgAbout::execDlgAbout(this); });
 
-    // Other connections
+    // Settings connections
     connect(ui->SpinBoxIndent, &QSpinBox::valueChanged, [this]() { this->GenerationTimer.start(GENERATION_DELAY); });
     connect(ui->SpinBoxTabSize, &QSpinBox::valueChanged, [this]() { this->GenerationTimer.start(GENERATION_DELAY); });
     connect(ui->SpinBoxEmptyLines, &QSpinBox::valueChanged, [this]() { this->GenerationTimer.start(GENERATION_DELAY); });
     connect(ui->SpinBoxWidth, &QSpinBox::valueChanged, [this]() { this->GenerationTimer.start(GENERATION_DELAY); });
     connect(ui->TextEditInput, &QPlainTextEdit::textChanged, [this]() { this->GenerationTimer.start(GENERATION_DELAY); });
     connect(&this->GenerationTimer, &QTimer::timeout, this, &MainWindow::updateOutput);
+
+    // Shortcuts connections
+    connect(&this->IncreaseEmptyLinesShortcut, &QShortcut::activated, [this]() { ui->SpinBoxEmptyLines->setValue(ui->SpinBoxEmptyLines->value() + 1); });
+    connect(&this->DecreaseEmptyLinesShortcut, &QShortcut::activated, [this]() { ui->SpinBoxEmptyLines->setValue(ui->SpinBoxEmptyLines->value() - 1); });
+    connect(&this->IncreaseIndentShortcut, &QShortcut::activated, [this]() { ui->SpinBoxIndent->setValue(ui->SpinBoxIndent->value() + 1); });
+    connect(&this->DecreaseIndentShortcut, &QShortcut::activated, [this]() { ui->SpinBoxIndent->setValue(ui->SpinBoxIndent->value() - 1); });
+    connect(&this->IncreaseTabSizeShortcut, &QShortcut::activated, [this]() { ui->SpinBoxTabSize->setValue(ui->SpinBoxTabSize->value() + 1); });
+    connect(&this->DecreaseTabSizeShortcut, &QShortcut::activated, [this]() { ui->SpinBoxTabSize->setValue(ui->SpinBoxTabSize->value() - 1); });
+    connect(&this->IncreaseWidthShortcut, &QShortcut::activated, [this]() { ui->SpinBoxWidth->setValue(ui->SpinBoxWidth->value() + STEP_WIDTH); });
+    connect(&this->DecreaseWidthShortcut, &QShortcut::activated, [this]() { ui->SpinBoxWidth->setValue(ui->SpinBoxWidth->value() - STEP_WIDTH); });
 }
 
 MainWindow::~MainWindow()
 {
     // Save and close settings
     // Settings managed by DlgSettings have already been pushed to the Settings object.
-    // The settings local to the MainWindow have to be saved separately
+    // The local settings of MainWindow have to be saved separately
     Settings::instance()->setEmptyLines(ui->SpinBoxEmptyLines->value());
     Settings::instance()->setWidth(ui->SpinBoxWidth->value());
     Settings::instance()->setIndentCount(ui->SpinBoxIndent->value());
@@ -83,12 +104,12 @@ MainWindow::~MainWindow()
 void MainWindow::execDlgSettings()
 {
     if (DlgSettings::execDlgSettings(this)) {
-        updateLocalCopyOfSettings();
+        updateConfiguration();
         updateOutput();
     }
 }
 
-void MainWindow::updateLocalCopyOfSettings()
+void MainWindow::updateConfiguration()
 {
     // These are shortcuts to avoid triggering the QSettings factory while crafting the output box
     this->TopLeft      = Settings::instance()->topLeft();
@@ -100,8 +121,55 @@ void MainWindow::updateLocalCopyOfSettings()
     this->BottomCenter = Settings::instance()->bottomCenter();
     this->BottomRight  = Settings::instance()->bottomRight();
 
-    // Update the copy shortcut
+    // Shortcuts string
+    QString IncreaseEmptyLinesString = Settings::instance()->increaseEmptyLinesShortcut();
+    QString DecreaseEmptyLinesString = Settings::instance()->decreaseEmptyLinesShortcut();
+    QString IncreaseTabSizeString    = Settings::instance()->increaseTabSizeShortcut();
+    QString DecreaseTabSizeString    = Settings::instance()->decreaseTabSizeShortcut();
+    QString IncreaseIndentString     = Settings::instance()->increaseIndentShortcut();
+    QString DecreaseIndentString     = Settings::instance()->decreaseIndentShortcut();
+    QString IncreaseWidthString      = Settings::instance()->increaseWidthShortcut();
+    QString DecreaseWidthString      = Settings::instance()->decreaseWidthShortcut();
+
+    // Shortcuts keys
     this->CopyShortcut.setKey(Settings::instance()->copyShortcut());
+    this->IncreaseEmptyLinesShortcut.setKey(IncreaseEmptyLinesString);
+    this->DecreaseEmptyLinesShortcut.setKey(DecreaseEmptyLinesString);
+    this->IncreaseTabSizeShortcut.setKey(IncreaseTabSizeString);
+    this->DecreaseTabSizeShortcut.setKey(DecreaseTabSizeString);
+    this->IncreaseIndentShortcut.setKey(IncreaseIndentString);
+    this->DecreaseIndentShortcut.setKey(DecreaseIndentString);
+    this->DecreaseWidthShortcut.setKey(IncreaseWidthString);
+    this->IncreaseWidthShortcut.setKey(DecreaseWidthString);
+
+    // Tooltips
+    if (!Settings::instance()->copyShortcut().isEmpty()) {
+        ui->ButtonCopy->setToolTip(QString("Shortcut: %1").arg(Settings::instance()->copyShortcut()));
+    }
+
+    ui->SpinBoxEmptyLines->setToolTip("");
+    if (!IncreaseEmptyLinesString.isEmpty() && !DecreaseEmptyLinesString.isEmpty()) {
+        ui->SpinBoxEmptyLines->setToolTip(QString("%1 to increase, %2 to decrease").arg(IncreaseEmptyLinesString).arg(DecreaseEmptyLinesString));
+        ui->LabelEmptyLines->setToolTip(QString("%1 to increase, %2 to decrease").arg(IncreaseEmptyLinesString).arg(DecreaseEmptyLinesString));
+    }
+
+    ui->SpinBoxIndent->setToolTip("");
+    if (!IncreaseIndentString.isEmpty() && !DecreaseIndentString.isEmpty()) {
+        ui->SpinBoxIndent->setToolTip(QString("%1 to increase, %2 to decrease").arg(IncreaseIndentString).arg(DecreaseIndentString));
+        ui->LabelIndent->setToolTip(QString("%1 to increase, %2 to decrease").arg(IncreaseIndentString).arg(DecreaseIndentString));
+    }
+
+    ui->SpinBoxTabSize->setToolTip("");
+    if (!IncreaseTabSizeString.isEmpty() && !DecreaseTabSizeString.isEmpty()) {
+        ui->SpinBoxTabSize->setToolTip(QString("%1 to increase, %2 to decrease").arg(IncreaseTabSizeString).arg(DecreaseTabSizeString));
+        ui->LabelTabSize->setToolTip(QString("%1 to increase, %2 to decrease").arg(IncreaseTabSizeString).arg(DecreaseTabSizeString));
+    }
+
+    ui->SpinBoxWidth->setToolTip("");
+    if (!IncreaseWidthString.isEmpty() && !DecreaseWidthString.isEmpty()) {
+        ui->SpinBoxWidth->setToolTip(QString("%1 to increase, %2 to decrease").arg(IncreaseWidthString).arg(DecreaseWidthString));
+        ui->LabelWidth->setToolTip(QString("%1 to increase, %2 to decrease").arg(IncreaseWidthString).arg(DecreaseWidthString));
+    }
 }
 
 void MainWindow::updateOutput()
@@ -114,8 +182,22 @@ void MainWindow::updateOutput()
     QStringList CommentLines(ui->TextEditInput->toPlainText().split('\n')); // List of the lines in the input box
 
     // Indentation
+    QString IndentStr;
     int     IndentSize = ui->SpinBoxIndent->value() * ui->SpinBoxTabSize->value(); // Number of spaces of the indentation space
-    QString IndentStr(IndentSize, ' ');                                            // Intendation string, full of spaces
+
+    if (Settings::instance()->indentWithSpaces()) {
+        IndentStr.fill(' ', IndentSize);
+    }
+    else {
+        QFont        Font(ui->TextEditInput->font());
+        QFontMetrics Metrics(Font);
+        qreal        TabStopDistance = ui->SpinBoxTabSize->value() * Metrics.maxWidth();
+        ui->TextEditInput->setTabStopDistance(TabStopDistance);
+        ui->TextEditOutput->setTabStopDistance(TabStopDistance);
+        IndentStr.fill('\t', ui->SpinBoxIndent->value());
+    }
+
+    // Intendation string, full of spaces
 
     // Compute real width, adapted to the longest comment line
     int RealWidth = ui->SpinBoxWidth->value();

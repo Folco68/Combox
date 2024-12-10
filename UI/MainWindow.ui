@@ -56,6 +56,7 @@
          <property name="font">
           <font>
            <family>Consolas</family>
+           <pointsize>9</pointsize>
           </font>
          </property>
          <property name="readOnly">

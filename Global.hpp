@@ -27,4 +27,7 @@
 // After a keystroke in the input box, wait the exhaust of this timer to update the output
 #define GENERATION_DELAY 200
 
+// Step of increment/decrement of the total width
+#define STEP_WIDTH 10
+
 #endif // GLOBAL_HPP

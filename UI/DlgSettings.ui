@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>723</width>
-    <height>228</height>
+    <width>721</width>
+    <height>430</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -35,6 +35,9 @@
         <property name="alignment">
          <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
         </property>
+        <property name="buddy">
+         <cstring>EditMiddleLeft</cstring>
+        </property>
        </widget>
       </item>
       <item row="5" column="5">
@@ -51,6 +54,9 @@
         </property>
         <property name="alignment">
          <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+        </property>
+        <property name="buddy">
+         <cstring>EditBottomRight</cstring>
         </property>
        </widget>
       </item>
@@ -69,6 +75,9 @@
         <property name="alignment">
          <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
         </property>
+        <property name="buddy">
+         <cstring>EditBottomLeft</cstring>
+        </property>
        </widget>
       </item>
       <item row="5" column="3" colspan="2">
@@ -78,6 +87,9 @@
         </property>
         <property name="alignment">
          <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+        </property>
+        <property name="buddy">
+         <cstring>EditBottomCenter</cstring>
         </property>
        </widget>
       </item>
@@ -95,6 +107,9 @@
         </property>
         <property name="alignment">
          <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+        </property>
+        <property name="buddy">
+         <cstring>EditTopLeft</cstring>
         </property>
        </widget>
       </item>
@@ -126,6 +141,9 @@
         <property name="alignment">
          <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
         </property>
+        <property name="buddy">
+         <cstring>EditTopRight</cstring>
+        </property>
        </widget>
       </item>
       <item row="4" column="7">
@@ -135,6 +153,9 @@
         </property>
         <property name="alignment">
          <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+        </property>
+        <property name="buddy">
+         <cstring>EditMiddleRight</cstring>
         </property>
        </widget>
       </item>
@@ -180,6 +201,9 @@
         <property name="alignment">
          <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
         </property>
+        <property name="buddy">
+         <cstring>EditTopCenter</cstring>
+        </property>
        </widget>
       </item>
      </layout>
@@ -188,9 +212,16 @@
    <item>
     <widget class="QGroupBox" name="BoxClipboard">
      <property name="title">
-      <string>Clipboard</string>
+      <string>Output</string>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QCheckBox" name="CheckIndentWithSpaces">
+        <property name="text">
+         <string>Indent with spaces</string>
+        </property>
+       </widget>
+      </item>
       <item>
        <widget class="QCheckBox" name="CheckAutoCopy">
         <property name="text">
@@ -199,12 +230,64 @@
        </widget>
       </item>
       <item>
-       <spacer name="HSpacer3">
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QLabel" name="LabelKeySequenceCopy">
+          <property name="text">
+           <string>Copy to clipboard:</string>
+          </property>
+          <property name="buddy">
+           <cstring>KeySequenceCopy</cstring>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QKeySequenceEdit" name="KeySequenceCopy"/>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Orientation::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="BoxShortcuts">
+     <property name="title">
+      <string>Shortcuts</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="4" column="4">
+       <widget class="QKeySequenceEdit" name="KeySequenceDecreaseTabSize"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="LabelIncreaseEmptyLines">
+        <property name="text">
+         <string>Increase empty lines:</string>
+        </property>
+        <property name="buddy">
+         <cstring>KeySequenceIncreaseEmptyLines</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="4">
+       <widget class="QKeySequenceEdit" name="KeySequenceDecreaseIndent"/>
+      </item>
+      <item row="0" column="2">
+       <spacer name="HSpacerShortctus">
         <property name="orientation">
          <enum>Qt::Orientation::Horizontal</enum>
-        </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::Policy::Fixed</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
@@ -214,28 +297,93 @@
         </property>
        </spacer>
       </item>
-      <item>
-       <widget class="QLabel" name="LabelKeySequenceCopy">
+      <item row="4" column="0">
+       <widget class="QLabel" name="LabelIncreaseTabSize">
         <property name="text">
-         <string>Copy to clipboard:</string>
+         <string>Increase tab size:</string>
+        </property>
+        <property name="buddy">
+         <cstring>KeySequenceIncreaseTabSize</cstring>
         </property>
        </widget>
       </item>
-      <item>
-       <widget class="QKeySequenceEdit" name="KeySequenceCopy"/>
+      <item row="1" column="3">
+       <widget class="QLabel" name="LabelDecreaseEmptyLines">
+        <property name="text">
+         <string>Decrease empty lines:</string>
+        </property>
+        <property name="buddy">
+         <cstring>KeySequenceDecreaseEmptyLines</cstring>
+        </property>
+       </widget>
       </item>
-      <item>
-       <spacer name="HSpacer4">
-        <property name="orientation">
-         <enum>Qt::Orientation::Horizontal</enum>
+      <item row="4" column="3">
+       <widget class="QLabel" name="LabelDecreaseTab">
+        <property name="text">
+         <string>Decrease tab size:</string>
         </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>156</width>
-          <height>20</height>
-         </size>
+        <property name="buddy">
+         <cstring>KeySequenceDecreaseTabSize</cstring>
         </property>
-       </spacer>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="LabelIncreaseWidth">
+        <property name="text">
+         <string>Increase width:</string>
+        </property>
+        <property name="buddy">
+         <cstring>KeySequenceIncreaseWidth</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="4">
+       <widget class="QKeySequenceEdit" name="KeySequenceDecreaseWidth"/>
+      </item>
+      <item row="0" column="3">
+       <widget class="QLabel" name="LabelDecreaseWidth">
+        <property name="text">
+         <string>Decrease width:</string>
+        </property>
+        <property name="buddy">
+         <cstring>KeySequenceDecreaseWidth</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QKeySequenceEdit" name="KeySequenceIncreaseEmptyLines"/>
+      </item>
+      <item row="4" column="1">
+       <widget class="QKeySequenceEdit" name="KeySequenceIncreaseTabSize"/>
+      </item>
+      <item row="3" column="1">
+       <widget class="QKeySequenceEdit" name="KeySequenceIncreaseIndent"/>
+      </item>
+      <item row="0" column="1">
+       <widget class="QKeySequenceEdit" name="KeySequenceIncreaseWidth"/>
+      </item>
+      <item row="1" column="4">
+       <widget class="QKeySequenceEdit" name="KeySequenceDecreaseEmptyLines"/>
+      </item>
+      <item row="3" column="3">
+       <widget class="QLabel" name="LabelDecreaseIndent">
+        <property name="text">
+         <string>Decrease indent:</string>
+        </property>
+        <property name="buddy">
+         <cstring>KeySequenceDecreaseIndent</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="LabelIncreaseIndent">
+        <property name="text">
+         <string>Increase indent:</string>
+        </property>
+        <property name="buddy">
+         <cstring>KeySequenceIncreaseIndent</cstring>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
@@ -284,6 +432,14 @@
   <tabstop>EditBottomRight</tabstop>
   <tabstop>CheckAutoCopy</tabstop>
   <tabstop>KeySequenceCopy</tabstop>
+  <tabstop>KeySequenceIncreaseWidth</tabstop>
+  <tabstop>KeySequenceDecreaseWidth</tabstop>
+  <tabstop>KeySequenceIncreaseEmptyLines</tabstop>
+  <tabstop>KeySequenceDecreaseEmptyLines</tabstop>
+  <tabstop>KeySequenceIncreaseIndent</tabstop>
+  <tabstop>KeySequenceDecreaseIndent</tabstop>
+  <tabstop>KeySequenceIncreaseTabSize</tabstop>
+  <tabstop>KeySequenceDecreaseTabSize</tabstop>
   <tabstop>ButtonOK</tabstop>
   <tabstop>ButtonCancel</tabstop>
  </tabstops>

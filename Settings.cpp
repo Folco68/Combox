@@ -198,3 +198,93 @@ void Settings::setTabSize(int size)
 {
     setValue(KEY_TAB_SIZE, size);
 }
+
+bool Settings::indentWithSpaces() const
+{
+    return value(KEY_INDENT_WITH_SPACES, DEFAULT_INDENT_WITH_SPACES).toBool();
+}
+
+void Settings::setIndentWithSpaces(bool indent)
+{
+    setValue(KEY_INDENT_WITH_SPACES, indent);
+}
+
+QString Settings::increaseWidthShortcut() const
+{
+    return value(KEY_INCREASE_WIDTH_SHORTCUT, DEFAULT_INCREASE_WIDTH_SHORTCUT).toString();
+}
+
+void Settings::setIncreaseWidthShortcut(QString shortcut)
+{
+    setValue(KEY_INCREASE_WIDTH_SHORTCUT, shortcut);
+}
+
+QString Settings::increaseEmptyLinesShortcut() const
+{
+    return value(KEY_INCREASE_EMPTY_LINES_SHORTCUT, DEFAULT_INCREASE_EMPTY_LINES_SHORTCUT).toString();
+}
+
+void Settings::setIncreaseEmptyLinesShortcut(QString shortcut)
+{
+    setValue(KEY_INCREASE_EMPTY_LINES_SHORTCUT, shortcut);
+}
+
+QString Settings::increaseIndentShortcut() const
+{
+    return value(KEY_INCREASE_INDENT_SHORTCUT, DEFAULT_INCREASE_INDENT_SHORTCUT).toString();
+}
+
+void Settings::setIncreaseIndentShortcut(QString shortcut)
+{
+    setValue(KEY_INCREASE_INDENT_SHORTCUT, shortcut);
+}
+
+QString Settings::increaseTabSizeShortcut() const
+{
+    return value(KEY_INCREASE_TAB_SIZE_SHORTCUT, DEFAULT_INCREASE_TAB_SIZE_SHORTCUT).toString();
+}
+
+void Settings::setIncreaseTabSizeShortcut(QString shortcut)
+{
+    setValue(KEY_INCREASE_TAB_SIZE_SHORTCUT, shortcut);
+}
+
+QString Settings::decreaseWidthShortcut() const
+{
+    return value(KEY_DECREASE_WIDTH_SHORTCUT, DEFAULT_DECREASE_WIDTH_SHORTCUT).toString();
+}
+
+void Settings::setDecreaseWidthShortcut(QString shortcut)
+{
+    setValue(KEY_DECREASE_WIDTH_SHORTCUT, shortcut);
+}
+
+QString Settings::decreaseEmptyLinesShortcut() const
+{
+    return value(KEY_DECREASE_EMPTY_LINES_SHORTCUT, DEFAULT_DECREASE_EMPTY_LINES_SHORTCUT).toString();
+}
+
+void Settings::setDecreaseEmptyLinesShortcut(QString shortcut)
+{
+    setValue(KEY_DECREASE_EMPTY_LINES_SHORTCUT, shortcut);
+}
+
+QString Settings::decreaseIndentShortcut() const
+{
+    return value(KEY_DECREASE_INDENT_SHORTCUT, DEFAULT_DECREASE_INDENT_SHORTCUT).toString();
+}
+
+void Settings::setDecreaseIndentShortcut(QString shortcut)
+{
+    setValue(KEY_DECREASE_INDENT_SHORTCUT, shortcut);
+}
+
+QString Settings::decreaseTabSizeShortcut() const
+{
+    return value(KEY_DECREASE_TAB_SIZE_SHORTCUT, DEFAULT_DECREASE_TAB_SIZE_SHORTCUT).toString();
+}
+
+void Settings::setDecreaseTabSizeShortcut(QString shortcut)
+{
+    setValue(KEY_DECREASE_TAB_SIZE_SHORTCUT, shortcut);
+}

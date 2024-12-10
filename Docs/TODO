@@ -10,3 +10,4 @@
 + text is not copied to the clipboard after a paste in the input box
 + About Dlg
 + trim pasted/dropped text line per line, to properly clean multi-lines comment
++ set tab size in QPlainTextEdit

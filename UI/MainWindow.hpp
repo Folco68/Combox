@@ -56,9 +56,17 @@ class MainWindow: public QMainWindow
     QString   BottomRight;
     bool      AutoCopy;
     QShortcut CopyShortcut;
+    QShortcut IncreaseEmptyLinesShortcut;
+    QShortcut DecreaseEmptyLinesShortcut;
+    QShortcut IncreaseTabSizeShortcut;
+    QShortcut DecreaseTabSizeShortcut;
+    QShortcut IncreaseIndentShortcut;
+    QShortcut DecreaseIndentShortcut;
+    QShortcut IncreaseWidthShortcut;
+    QShortcut DecreaseWidthShortcut;
 
     void execDlgSettings();
-    void updateLocalCopyOfSettings();
+    void updateConfiguration();
     void updateOutput();
     bool event(QEvent* event) override;
 };

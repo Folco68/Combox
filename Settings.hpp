@@ -33,10 +33,11 @@ class Settings: public QSettings
 {
   public:
     // Singleton stuff
+
     static Settings* instance();
     static void      release();
 
-    // Settings
+    // Decoration
     QString topLeft() const;
     void    setTopLeft(QString pattern);
 
@@ -61,23 +62,53 @@ class Settings: public QSettings
     QString bottomRight() const;
     void    setBottomRight(QString pattern);
 
-    int  emptyLines() const;
-    void setEmptyLines(int lines);
-
-    int  width() const;
-    void setWidth(int width);
-
+    // Other output settings
     bool autoCopyToClipboard() const;
     void setautoCopyToClipboard(bool enabled);
 
     QString copyShortcut() const;
     void    setCopyShortcut(QString sequence);
 
+    bool indentWithSpaces() const;
+    void setIndentWithSpaces(bool indent);
+
+    // Settings accessible in MainWindow
+    int  emptyLines() const;
+    void setEmptyLines(int lines);
+
+    int  width() const;
+    void setWidth(int width);
+
     int  indentCount() const;
     void setIndentCount(int count);
 
     int  tabSize() const;
     void setTabSize(int size);
+
+    // Shortcuts
+    QString increaseWidthShortcut() const;
+    void    setIncreaseWidthShortcut(QString shortcut);
+
+    QString increaseEmptyLinesShortcut() const;
+    void    setIncreaseEmptyLinesShortcut(QString shortcut);
+
+    QString increaseIndentShortcut() const;
+    void    setIncreaseIndentShortcut(QString shortcut);
+
+    QString increaseTabSizeShortcut() const;
+    void    setIncreaseTabSizeShortcut(QString shortcut);
+
+    QString decreaseWidthShortcut() const;
+    void    setDecreaseWidthShortcut(QString shortcut);
+
+    QString decreaseEmptyLinesShortcut() const;
+    void    setDecreaseEmptyLinesShortcut(QString shortcut);
+
+    QString decreaseIndentShortcut() const;
+    void    setDecreaseIndentShortcut(QString shortcut);
+
+    QString decreaseTabSizeShortcut() const;
+    void    setDecreaseTabSizeShortcut(QString shortcut);
 
   private:
     // Singleton stuff
@@ -110,22 +141,49 @@ class Settings: public QSettings
 #define KEY_BOTTOM_RIGHT     "BottomRight"
 #define DEFAULT_BOTTOM_RIGHT "/"
 
-#define KEY_EMTPY_LINES     "EmptyLines"
-#define DEFAULT_EMPTY_LINES 1
-
-#define KEY_WIDTH     "Width"
-#define DEFAULT_WIDTH 120
-
 #define KEY_AUTO_COPY_TO_CLIPBOARD     "AutoCopyToClipboard"
 #define DEFAULT_AUTO_COPY_TO_CLIPBOARD false
 
 #define KEY_COPY_SHORTCUT     "CopyShortcut"
 #define DEFAULT_COPY_SHORTCUT "F5"
 
+#define KEY_INDENT_WITH_SPACES     "IndentWithSpaces"
+#define DEFAULT_INDENT_WITH_SPACES true
+
+#define KEY_EMTPY_LINES     "EmptyLines"
+#define DEFAULT_EMPTY_LINES 1
+
+#define KEY_WIDTH     "Width"
+#define DEFAULT_WIDTH 120
+
 #define KEY_INDENT_COUNT     "IndentCount"
 #define DEFAULT_INDENT_COUNT 1
 
 #define KEY_TAB_SIZE     "TabSize"
 #define DEFAULT_TAB_SIZE 4
+
+#define KEY_INCREASE_WIDTH_SHORTCUT     "IncreaseWidthShortcut"
+#define DEFAULT_INCREASE_WIDTH_SHORTCUT "Ctrl+W"
+
+#define KEY_INCREASE_EMPTY_LINES_SHORTCUT     "IncreaseEmptyLines"
+#define DEFAULT_INCREASE_EMPTY_LINES_SHORTCUT "Ctrl+E"
+
+#define KEY_INCREASE_INDENT_SHORTCUT     "IncreaseIndentShortcut"
+#define DEFAULT_INCREASE_INDENT_SHORTCUT "Ctrl+I"
+
+#define KEY_INCREASE_TAB_SIZE_SHORTCUT     "IncreaseTabSizeShortcut"
+#define DEFAULT_INCREASE_TAB_SIZE_SHORTCUT "Ctrl+T"
+
+#define KEY_DECREASE_WIDTH_SHORTCUT     "DecreaseWidthShortcut"
+#define DEFAULT_DECREASE_WIDTH_SHORTCUT "Shift+Ctrl+W"
+
+#define KEY_DECREASE_EMPTY_LINES_SHORTCUT     "DecreaseEmptyLines"
+#define DEFAULT_DECREASE_EMPTY_LINES_SHORTCUT "Shift+Ctrl+E"
+
+#define KEY_DECREASE_INDENT_SHORTCUT     "DecreaseIndentShortcut"
+#define DEFAULT_DECREASE_INDENT_SHORTCUT "Shift+Ctrl+I"
+
+#define KEY_DECREASE_TAB_SIZE_SHORTCUT     "DecreaseTabSizeShortcut"
+#define DEFAULT_DECREASE_TAB_SIZE_SHORTCUT "Shift+Ctrl+T"
 
 #endif // SETTINGS_HPP

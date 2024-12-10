@@ -44,8 +44,18 @@ DlgSettings::DlgSettings(QWidget* parent)
     ui->EditBottomLeft->setText(Settings::instance()->bottomLeft());
     ui->EditBottomCenter->setText(Settings::instance()->bottomCenter());
     ui->EditBottomRight->setText(Settings::instance()->bottomRight());
+    ui->CheckIndentWithSpaces->setChecked(Settings::instance()->indentWithSpaces());
     ui->CheckAutoCopy->setChecked(Settings::instance()->autoCopyToClipboard());
     ui->KeySequenceCopy->setKeySequence(Settings::instance()->copyShortcut());
+    ui->KeySequenceIncreaseEmptyLines->setKeySequence(Settings::instance()->increaseEmptyLinesShortcut());
+    ui->KeySequenceDecreaseEmptyLines->setKeySequence(Settings::instance()->decreaseEmptyLinesShortcut());
+    ui->KeySequenceIncreaseIndent->setKeySequence(Settings::instance()->increaseIndentShortcut());
+    ui->KeySequenceDecreaseIndent->setKeySequence(Settings::instance()->decreaseIndentShortcut());
+    ui->KeySequenceIncreaseTabSize->setKeySequence(Settings::instance()->increaseTabSizeShortcut());
+    ui->KeySequenceDecreaseTabSize->setKeySequence(Settings::instance()->decreaseTabSizeShortcut());
+    ui->KeySequenceIncreaseWidth->setKeySequence(Settings::instance()->increaseWidthShortcut());
+    ui->KeySequenceDecreaseWidth->setKeySequence(Settings::instance()->decreaseWidthShortcut());
+
 
     /***************************************************************************
      *                                                                         *
@@ -92,8 +102,17 @@ bool DlgSettings::execDlgSettings(QWidget* parent)
         Settings::instance()->setBottomLeft(Dlg->ui->EditBottomLeft->text());
         Settings::instance()->setBottomCenter(Dlg->ui->EditBottomCenter->text());
         Settings::instance()->setBottomRight(Dlg->ui->EditBottomRight->text());
+        Settings::instance()->setIndentWithSpaces(Dlg->ui->CheckIndentWithSpaces->isChecked());
         Settings::instance()->setautoCopyToClipboard(Dlg->ui->CheckAutoCopy->isChecked());
         Settings::instance()->setCopyShortcut(Dlg->ui->KeySequenceCopy->keySequence().toString());
+        Settings::instance()->setIncreaseEmptyLinesShortcut(Dlg->ui->KeySequenceIncreaseEmptyLines->keySequence().toString());
+        Settings::instance()->setDecreaseEmptyLinesShortcut(Dlg->ui->KeySequenceDecreaseEmptyLines->keySequence().toString());
+        Settings::instance()->setIncreaseIndentShortcut(Dlg->ui->KeySequenceIncreaseIndent->keySequence().toString());
+        Settings::instance()->setDecreaseIndentShortcut(Dlg->ui->KeySequenceDecreaseIndent->keySequence().toString());
+        Settings::instance()->setIncreaseTabSizeShortcut(Dlg->ui->KeySequenceIncreaseTabSize->keySequence().toString());
+        Settings::instance()->setDecreaseTabSizeShortcut(Dlg->ui->KeySequenceDecreaseTabSize->keySequence().toString());
+        Settings::instance()->setIncreaseWidthShortcut(Dlg->ui->KeySequenceIncreaseWidth->keySequence().toString());
+        Settings::instance()->setDecreaseWidthShortcut(Dlg->ui->KeySequenceDecreaseWidth->keySequence().toString());
     }
 
     /***************************************************************************

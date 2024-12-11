@@ -139,8 +139,8 @@ void MainWindow::updateConfiguration()
     this->DecreaseTabSizeShortcut.setKey(DecreaseTabSizeString);
     this->IncreaseIndentShortcut.setKey(IncreaseIndentString);
     this->DecreaseIndentShortcut.setKey(DecreaseIndentString);
-    this->DecreaseWidthShortcut.setKey(IncreaseWidthString);
-    this->IncreaseWidthShortcut.setKey(DecreaseWidthString);
+    this->IncreaseWidthShortcut.setKey(IncreaseWidthString);
+    this->DecreaseWidthShortcut.setKey(DecreaseWidthString);
 
     // Tooltips
     if (!Settings::instance()->copyShortcut().isEmpty()) {
@@ -269,12 +269,26 @@ void MainWindow::updateOutput()
     }
 }
 
-// Select the text in the input box and give it the focus on windows activation
 bool MainWindow::event(QEvent* event)
 {
+    /***************************************************************************
+     *         On window activation, select the text in the input box          *
+     *                          and give it the focus                          *
+     **************************************************************************/
     if (event->type() == QEvent::WindowActivate) {
         ui->TextEditInput->setFocus();
         ui->TextEditInput->selectAll();
     }
+
+    /***************************************************************************
+     *             On window deactivation, force output generation             *
+     **************************************************************************/
+    if (event->type() == QEvent::WindowDeactivate) {
+        updateOutput();
+    }
+
+    /***************************************************************************
+     *                           Handle other events                           *
+     **************************************************************************/
     return QMainWindow::event(event);
 }

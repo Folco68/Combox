@@ -103,7 +103,7 @@ bool DlgSettings::execDlgSettings(QWidget* parent)
         Settings::instance()->setBottomCenter(Dlg->ui->EditBottomCenter->text());
         Settings::instance()->setBottomRight(Dlg->ui->EditBottomRight->text());
         Settings::instance()->setIndentWithSpaces(Dlg->ui->CheckIndentWithSpaces->isChecked());
-        Settings::instance()->setautoCopyToClipboard(Dlg->ui->CheckAutoCopy->isChecked());
+        Settings::instance()->setAutoCopyToClipboard(Dlg->ui->CheckAutoCopy->isChecked());
         Settings::instance()->setCopyShortcut(Dlg->ui->KeySequenceCopy->keySequence().toString());
         Settings::instance()->setIncreaseEmptyLinesShortcut(Dlg->ui->KeySequenceIncreaseEmptyLines->keySequence().toString());
         Settings::instance()->setDecreaseEmptyLinesShortcut(Dlg->ui->KeySequenceDecreaseEmptyLines->keySequence().toString());

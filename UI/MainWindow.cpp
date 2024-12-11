@@ -26,6 +26,7 @@
 #include <QFont>
 #include <QFontMetrics>
 #include <QGuiApplication>
+#include <QKeySequence>
 #include <QList>
 
 MainWindow::MainWindow(QWidget* parent)
@@ -41,6 +42,7 @@ MainWindow::MainWindow(QWidget* parent)
     , DecreaseIndentShortcut(this)
     , IncreaseWidthShortcut(this)
     , DecreaseWidthShortcut(this)
+    , DlgAboutShortcut(QKeySequence("F1"), this)
 {
     ui->setupUi(this);
     setWindowTitle(APPLICATION_NAME);
@@ -67,6 +69,7 @@ MainWindow::MainWindow(QWidget* parent)
     connect(ui->ButtonSettings, &QPushButton::clicked, this, &MainWindow::execDlgSettings);
     connect(ui->ButtonCopy, &QPushButton::clicked, [this]() { QGuiApplication::clipboard()->setText(ui->TextEditOutput->toPlainText()); });
     connect(ui->ButtonAbout, &QPushButton::clicked, [this]() { DlgAbout::execDlgAbout(this); });
+    connect(&this->DlgAboutShortcut, &QShortcut::activated, [this]() { DlgAbout::execDlgAbout(this); });
 
     // Settings connections
     connect(ui->SpinBoxIndent, &QSpinBox::valueChanged, [this]() { this->GenerationTimer.start(GENERATION_DELAY); });

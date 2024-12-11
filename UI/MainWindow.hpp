@@ -64,6 +64,7 @@ class MainWindow: public QMainWindow
     QShortcut DecreaseIndentShortcut;
     QShortcut IncreaseWidthShortcut;
     QShortcut DecreaseWidthShortcut;
+    QShortcut DlgAboutShortcut;
 
     void execDlgSettings();
     void updateConfiguration();

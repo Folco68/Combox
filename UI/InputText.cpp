@@ -75,7 +75,7 @@ void InputText::insertFromMimeData(const QMimeData* source)
 
     clear();
     for (int i = 0; i < Lines.count(); i++) {
-        appendPlainText(Lines.at(i)); // Empty lines does not change the input
+        appendPlainText(Lines.at(i)); // Empty lines do not change the input
     }
 }
 

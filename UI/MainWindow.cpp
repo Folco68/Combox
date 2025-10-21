@@ -52,7 +52,7 @@ MainWindow::MainWindow(QWidget* parent)
     this->GenerationTimer.setTimerType(Qt::CoarseTimer); // 5% accuracy
 
     // Copy shortcut
-    connect(&this->CopyShortcut, &QShortcut::activated, [this]() { QGuiApplication::clipboard()->setText(ui->TextEditOutput->toPlainText()); });
+    connect(&this->CopyShortcut, &QShortcut::activated, this, [this]() { QGuiApplication::clipboard()->setText(ui->TextEditOutput->toPlainText()); });
 
     // Update box settings
     ui->SpinBoxIndent->setValue(Settings::instance()->indentCount());
@@ -67,27 +67,27 @@ MainWindow::MainWindow(QWidget* parent)
 
     // Buttons connections
     connect(ui->ButtonSettings, &QPushButton::clicked, this, &MainWindow::execDlgSettings);
-    connect(ui->ButtonCopy, &QPushButton::clicked, [this]() { QGuiApplication::clipboard()->setText(ui->TextEditOutput->toPlainText()); });
-    connect(ui->ButtonAbout, &QPushButton::clicked, [this]() { DlgAbout::execDlgAbout(this); });
-    connect(&this->DlgAboutShortcut, &QShortcut::activated, [this]() { DlgAbout::execDlgAbout(this); });
+    connect(ui->ButtonCopy, &QPushButton::clicked, this, [this]() { QGuiApplication::clipboard()->setText(ui->TextEditOutput->toPlainText()); });
+    connect(ui->ButtonAbout, &QPushButton::clicked, this, [this]() { DlgAbout::execDlgAbout(this); });
+    connect(&this->DlgAboutShortcut, &QShortcut::activated, this, [this]() { DlgAbout::execDlgAbout(this); });
 
     // Settings connections
-    connect(ui->SpinBoxIndent, &QSpinBox::valueChanged, [this]() { this->GenerationTimer.start(GENERATION_DELAY); });
-    connect(ui->SpinBoxTabSize, &QSpinBox::valueChanged, [this]() { this->GenerationTimer.start(GENERATION_DELAY); });
-    connect(ui->SpinBoxEmptyLines, &QSpinBox::valueChanged, [this]() { this->GenerationTimer.start(GENERATION_DELAY); });
-    connect(ui->SpinBoxWidth, &QSpinBox::valueChanged, [this]() { this->GenerationTimer.start(GENERATION_DELAY); });
-    connect(ui->TextEditInput, &QPlainTextEdit::textChanged, [this]() { this->GenerationTimer.start(GENERATION_DELAY); });
+    connect(ui->SpinBoxIndent, &QSpinBox::valueChanged, this, [this]() { this->GenerationTimer.start(GENERATION_DELAY); });
+    connect(ui->SpinBoxTabSize, &QSpinBox::valueChanged, this, [this]() { this->GenerationTimer.start(GENERATION_DELAY); });
+    connect(ui->SpinBoxEmptyLines, &QSpinBox::valueChanged, this, [this]() { this->GenerationTimer.start(GENERATION_DELAY); });
+    connect(ui->SpinBoxWidth, &QSpinBox::valueChanged, this, [this]() { this->GenerationTimer.start(GENERATION_DELAY); });
+    connect(ui->TextEditInput, &QPlainTextEdit::textChanged, this, [this]() { this->GenerationTimer.start(GENERATION_DELAY); });
     connect(&this->GenerationTimer, &QTimer::timeout, this, &MainWindow::updateOutput);
 
     // Shortcuts connections
-    connect(&this->IncreaseEmptyLinesShortcut, &QShortcut::activated, [this]() { ui->SpinBoxEmptyLines->setValue(ui->SpinBoxEmptyLines->value() + 1); });
-    connect(&this->DecreaseEmptyLinesShortcut, &QShortcut::activated, [this]() { ui->SpinBoxEmptyLines->setValue(ui->SpinBoxEmptyLines->value() - 1); });
-    connect(&this->IncreaseIndentShortcut, &QShortcut::activated, [this]() { ui->SpinBoxIndent->setValue(ui->SpinBoxIndent->value() + 1); });
-    connect(&this->DecreaseIndentShortcut, &QShortcut::activated, [this]() { ui->SpinBoxIndent->setValue(ui->SpinBoxIndent->value() - 1); });
-    connect(&this->IncreaseTabSizeShortcut, &QShortcut::activated, [this]() { ui->SpinBoxTabSize->setValue(ui->SpinBoxTabSize->value() + 1); });
-    connect(&this->DecreaseTabSizeShortcut, &QShortcut::activated, [this]() { ui->SpinBoxTabSize->setValue(ui->SpinBoxTabSize->value() - 1); });
-    connect(&this->IncreaseWidthShortcut, &QShortcut::activated, [this]() { ui->SpinBoxWidth->setValue(ui->SpinBoxWidth->value() + STEP_WIDTH); });
-    connect(&this->DecreaseWidthShortcut, &QShortcut::activated, [this]() { ui->SpinBoxWidth->setValue(ui->SpinBoxWidth->value() - STEP_WIDTH); });
+    connect(&this->IncreaseEmptyLinesShortcut, &QShortcut::activated, this, [this]() { ui->SpinBoxEmptyLines->setValue(ui->SpinBoxEmptyLines->value() + 1); });
+    connect(&this->DecreaseEmptyLinesShortcut, &QShortcut::activated, this, [this]() { ui->SpinBoxEmptyLines->setValue(ui->SpinBoxEmptyLines->value() - 1); });
+    connect(&this->IncreaseIndentShortcut, &QShortcut::activated, this, [this]() { ui->SpinBoxIndent->setValue(ui->SpinBoxIndent->value() + 1); });
+    connect(&this->DecreaseIndentShortcut, &QShortcut::activated, this, [this]() { ui->SpinBoxIndent->setValue(ui->SpinBoxIndent->value() - 1); });
+    connect(&this->IncreaseTabSizeShortcut, &QShortcut::activated, this, [this]() { ui->SpinBoxTabSize->setValue(ui->SpinBoxTabSize->value() + 1); });
+    connect(&this->DecreaseTabSizeShortcut, &QShortcut::activated, this, [this]() { ui->SpinBoxTabSize->setValue(ui->SpinBoxTabSize->value() - 1); });
+    connect(&this->IncreaseWidthShortcut, &QShortcut::activated, this, [this]() { ui->SpinBoxWidth->setValue(ui->SpinBoxWidth->value() + STEP_WIDTH); });
+    connect(&this->DecreaseWidthShortcut, &QShortcut::activated, this, [this]() { ui->SpinBoxWidth->setValue(ui->SpinBoxWidth->value() - STEP_WIDTH); });
 }
 
 MainWindow::~MainWindow()
@@ -152,26 +152,26 @@ void MainWindow::updateConfiguration()
 
     ui->SpinBoxEmptyLines->setToolTip("");
     if (!IncreaseEmptyLinesString.isEmpty() && !DecreaseEmptyLinesString.isEmpty()) {
-        ui->SpinBoxEmptyLines->setToolTip(QString("%1 to increase, %2 to decrease").arg(IncreaseEmptyLinesString).arg(DecreaseEmptyLinesString));
-        ui->LabelEmptyLines->setToolTip(QString("%1 to increase, %2 to decrease").arg(IncreaseEmptyLinesString).arg(DecreaseEmptyLinesString));
+        ui->SpinBoxEmptyLines->setToolTip(QString("%1 to increase, %2 to decrease").arg(IncreaseEmptyLinesString, DecreaseEmptyLinesString));
+        ui->LabelEmptyLines->setToolTip(QString("%1 to increase, %2 to decrease").arg(IncreaseEmptyLinesString, DecreaseEmptyLinesString));
     }
 
     ui->SpinBoxIndent->setToolTip("");
     if (!IncreaseIndentString.isEmpty() && !DecreaseIndentString.isEmpty()) {
-        ui->SpinBoxIndent->setToolTip(QString("%1 to increase, %2 to decrease").arg(IncreaseIndentString).arg(DecreaseIndentString));
-        ui->LabelIndent->setToolTip(QString("%1 to increase, %2 to decrease").arg(IncreaseIndentString).arg(DecreaseIndentString));
+        ui->SpinBoxIndent->setToolTip(QString("%1 to increase, %2 to decrease").arg(IncreaseIndentString, DecreaseIndentString));
+        ui->LabelIndent->setToolTip(QString("%1 to increase, %2 to decrease").arg(IncreaseIndentString, DecreaseIndentString));
     }
 
     ui->SpinBoxTabSize->setToolTip("");
     if (!IncreaseTabSizeString.isEmpty() && !DecreaseTabSizeString.isEmpty()) {
-        ui->SpinBoxTabSize->setToolTip(QString("%1 to increase, %2 to decrease").arg(IncreaseTabSizeString).arg(DecreaseTabSizeString));
-        ui->LabelTabSize->setToolTip(QString("%1 to increase, %2 to decrease").arg(IncreaseTabSizeString).arg(DecreaseTabSizeString));
+        ui->SpinBoxTabSize->setToolTip(QString("%1 to increase, %2 to decrease").arg(IncreaseTabSizeString, DecreaseTabSizeString));
+        ui->LabelTabSize->setToolTip(QString("%1 to increase, %2 to decrease").arg(IncreaseTabSizeString, DecreaseTabSizeString));
     }
 
     ui->SpinBoxWidth->setToolTip("");
     if (!IncreaseWidthString.isEmpty() && !DecreaseWidthString.isEmpty()) {
-        ui->SpinBoxWidth->setToolTip(QString("%1 to increase, %2 to decrease").arg(IncreaseWidthString).arg(DecreaseWidthString));
-        ui->LabelWidth->setToolTip(QString("%1 to increase, %2 to decrease").arg(IncreaseWidthString).arg(DecreaseWidthString));
+        ui->SpinBoxWidth->setToolTip(QString("%1 to increase, %2 to decrease").arg(IncreaseWidthString, DecreaseWidthString));
+        ui->LabelWidth->setToolTip(QString("%1 to increase, %2 to decrease").arg(IncreaseWidthString, DecreaseWidthString));
     }
 }
 
@@ -199,8 +199,6 @@ void MainWindow::updateOutput()
         ui->TextEditOutput->setTabStopDistance(TabStopDistance);
         IndentStr.fill('\t', ui->SpinBoxIndent->value());
     }
-
-    // Intendation string, full of spaces
 
     // Compute real width, adapted to the longest comment line
     int RealWidth = ui->SpinBoxWidth->value();
@@ -261,7 +259,7 @@ void MainWindow::updateOutput()
         Output.append(BottomCenter);                                            // And push back the center pattern
     }
     Output.append(BottomCenter.first(TmpWidth)); // Complete the center if the pattern does not fit exactly the available space
-    Output.append(BottomRight).append('\n');     // Finally, put the top right corner and go to the next line
+    Output.append(BottomRight).append('\n');     // Finally, put the bottom right corner and go to the next line
 
     // Update output box
     ui->TextEditOutput->setPlainText(Output);

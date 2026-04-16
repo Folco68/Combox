@@ -62,22 +62,21 @@ void InputText::insertFromMimeData(const QMimeData* source)
 {
     /************************************************************************** 
      *                                                                        * 
-     *          Paste the original block to save it in the history,           * 
-     *                then replace it with the clean version.                 * 
+     *           Paste the original block to save it in the history           * 
+     *                 then replace it with the clean version                 * 
      *           It allows to recover the original text with Ctrl-Z           * 
      *               if the cleaning function is too agressive                * 
      *                                                                        * 
-     *              Don't use setPlainText() or clear() methods               * 
-     *                    because they discard the history                    * 
+     *         After the text has been pasted once, don't use anymore         * 
+     *   setPlainText() or clear() methods because they discard the history   * 
      *                                                                        * 
      **************************************************************************/
 
-    QString Text = source->text();
-    selectAll();                  // Select all to overwrite everything
-    setPlainText(Text);           // Paste. Can't use paste(), because we are redefining it
-    selectAll();                  // Prepare for cutting
-    cut();                        // And cut, while it is already in the clipboard
-                                  // By this time, cutting is the only way to delete the text area without clearing the history
+    QString Text = source->text(); // Must read text() only once, I don't know why, else it crashes
+    setPlainText(Text);            // Paste. Can't use paste(), because we are redefining it
+    selectAll();                   // Prepare for cutting
+    cut();                         // And cut, while it is already in the clipboard
+                                   // By this time, cutting is the only way to delete the text area without clearing the history
 
     /***************************************************************************
      *                                                                         *
@@ -117,6 +116,7 @@ void InputText::insertFromMimeData(const QMimeData* source)
                 Line.clear();
             }
         }
+
         // There is at least one space in the string
         else {
             // Keep the first block only if it contains at least one alphanumeric char
@@ -142,7 +142,7 @@ void InputText::insertFromMimeData(const QMimeData* source)
             // No space in the string, keep it only if there is at least one alphanumeric char
             if (Offset < 0) {
                 LetterOrNumber = false;
-                for (int i = 0; i < Line.size(); i++) {
+                for (int i = 0; !LetterOrNumber && i < Line.size(); i++) {
                     LetterOrNumber |= Line.at(i).isLetterOrNumber();
                 }
                 // No alphanumeric char found, clear the line
@@ -150,6 +150,7 @@ void InputText::insertFromMimeData(const QMimeData* source)
                     Line.clear();
                 }
             }
+
             // There is at least one space in the string
             else {
                 Block = Line.mid(Offset);

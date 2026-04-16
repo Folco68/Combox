@@ -33,6 +33,7 @@ MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , GenerationTimer(this)
+    , TextModified(false)
     , CopyShortcut(this)
     , IncreaseEmptyLinesShortcut(this)
     , DecreaseEmptyLinesShortcut(this)
@@ -76,8 +77,11 @@ MainWindow::MainWindow(QWidget* parent)
     connect(ui->SpinBoxTabSize, &QSpinBox::valueChanged, this, [this]() { this->GenerationTimer.start(GENERATION_DELAY); });
     connect(ui->SpinBoxEmptyLines, &QSpinBox::valueChanged, this, [this]() { this->GenerationTimer.start(GENERATION_DELAY); });
     connect(ui->SpinBoxWidth, &QSpinBox::valueChanged, this, [this]() { this->GenerationTimer.start(GENERATION_DELAY); });
-    connect(ui->TextEditInput, &QPlainTextEdit::textChanged, this, [this]() { this->GenerationTimer.start(GENERATION_DELAY); });
+
+    // Output connections
     connect(&this->GenerationTimer, &QTimer::timeout, this, &MainWindow::updateOutput);
+    connect(ui->TextEditInput, &QPlainTextEdit::textChanged, this, [this]() { this->GenerationTimer.start(GENERATION_DELAY); });
+    connect(ui->TextEditInput, &QPlainTextEdit::modificationChanged, this, [this]() { this->TextModified = true; });
 
     // Shortcuts connections
     connect(&this->IncreaseEmptyLinesShortcut, &QShortcut::activated, this, [this]() { ui->SpinBoxEmptyLines->setValue(ui->SpinBoxEmptyLines->value() + 1); });
@@ -263,11 +267,6 @@ void MainWindow::updateOutput()
 
     // Update output box
     ui->TextEditOutput->setPlainText(Output);
-
-    // Copy to clipboard according to settings
-    if (Settings::instance()->autoCopyToClipboard()) {
-        QGuiApplication::clipboard()->setText(Output);
-    }
 }
 
 bool MainWindow::event(QEvent* event)
@@ -279,13 +278,20 @@ bool MainWindow::event(QEvent* event)
     if (event->type() == QEvent::WindowActivate) {
         ui->TextEditInput->setFocus();
         ui->TextEditInput->selectAll();
+        this->TextModified = false;
     }
 
-    /***************************************************************************
-     *             On window deactivation, force output generation             *
+    /************************************************************************** 
+     *            On window deactivation, force output generation             * 
+     *        and copy it into the clipboard according to the settings        * 
      **************************************************************************/
     if (event->type() == QEvent::WindowDeactivate) {
         updateOutput();
+
+        // Copy to clipboard according to settings
+        if (Settings::instance()->autoCopyToClipboard() && this->TextModified) {
+            QGuiApplication::clipboard()->setText(ui->TextEditOutput->toPlainText());
+        }
     }
 
     /***************************************************************************

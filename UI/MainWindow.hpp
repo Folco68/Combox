@@ -42,8 +42,9 @@ class MainWindow: public QMainWindow
   private:
     Ui::MainWindow* ui;
 
-    // Output timer
+    // Output generation
     QTimer GenerationTimer;
+    bool   TextModified;
 
     // Settings. Locally stored for performance and display conveniency
     QString   TopLeft;
@@ -55,6 +56,8 @@ class MainWindow: public QMainWindow
     QString   BottomCenter;
     QString   BottomRight;
     bool      AutoCopy;
+
+    // Shortcuts
     QShortcut CopyShortcut;
     QShortcut IncreaseEmptyLinesShortcut;
     QShortcut DecreaseEmptyLinesShortcut;

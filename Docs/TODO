@@ -14,5 +14,5 @@
 + revamp Settings code
 + remove trailing empty lines when pasting text
 + remove the decoration of pasted text more cleverly: stop after spaces to prevent removing punctuation, parenthesis and so on
++ don't copy the output to the clipboard if the input did not change
 - add decoration profiles
-- don't copy the output to the clipboard if the input did not change

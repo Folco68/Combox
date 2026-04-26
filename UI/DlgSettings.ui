@@ -225,7 +225,7 @@
       <item>
        <widget class="QCheckBox" name="CheckAutoCopy">
         <property name="text">
-         <string>Automatically copy output in the clipboard</string>
+         <string>Automatically copy output in the clipboard when the application loses focus</string>
         </property>
        </widget>
       </item>

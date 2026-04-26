@@ -51,6 +51,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         BeforeRelease.hpp
         Docs/HOWTO
         .gitignore
+        Profile/Profile.hpp Profile/Profile.cpp
+        Profile/ProfileList.hpp Profile/ProfileList.cpp
     )
 
 # Define target properties for Android with Qt 6 as:
